@@ -11,8 +11,3 @@
 # Site Reliability Engineers - Owns the workflows for deployment and automation
 /.github/workflows/* @Nvh270704 @Thulfiqarrr
 
-# Infrastructure Developer - Owns specific infrastructure secrects
-/parameters/ @trinirocaaa
-
-# Full Stack Developers - Owns modules related to full-stack or application code
-/modules/ @Dolfynn @juandifer

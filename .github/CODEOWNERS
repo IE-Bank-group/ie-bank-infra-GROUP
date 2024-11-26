@@ -1,5 +1,5 @@
 #Infrastructure Developer - General owners for all files
-* @apayne185
+* @apayne185 @trinirocaaa
 
 # Product Owner - Owns documentation and product feature descriptions
 /README.md @celinezoubii
@@ -10,9 +10,6 @@
 
 # Site Reliability Engineers - Owns the workflows for deployment and automation
 /.github/workflows/* @Nvh270704 @Thulfiqarrr
-
-# Infrastructure Developer - Owns specific infrastructure secrects
-/parameters/ @tinirocaaa
 
 # Full Stack Developers - Owns modules related to full-stack or application code
 /modules/ @Dolfynn @juandifer

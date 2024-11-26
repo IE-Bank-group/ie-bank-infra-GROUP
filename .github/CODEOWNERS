@@ -1,18 +1,17 @@
-#Infrastructure Developer - General owners for all files
+# Infrastructure Developer - General owners for all files
 * @apayne185
 
 # Product Owner - Owns documentation and product feature descriptions
 /README.md @celinezoubii
 
-# Cloud Architect - Owns cloud-related infrastructure code and configuration
-/modules/ @ptorrado2003 @apayne185
-/main.bicep @ptorrado2003 @apayne185
+# Site Reliability
+/main.bicep @Nvh270704 @Thulfiqarr
 
-# Site Reliability Engineers - Owns the workflows for deployment and automation
-/.github/workflows/* @Nvh270704 @Thulfiqarrr
+# Cybersecurity - Owns specific infrastructure secrets
+/modules/ @trinirocaaa
 
-# Infrastructure Developer - Owns specific infrastructure secrects
-/parameters/ @tinirocaaa
+# Access to workflows
+/.github/workflows/ @trinirocaaa
 
-# Full Stack Developers - Owns modules related to full-stack or application code
-/modules/ @Dolfynn @juandifer
+# Access to parameters
+/modules/parameters/ @trinirocaaa

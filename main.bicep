@@ -104,9 +104,6 @@ module keyVault 'modules/key-vault.bicep' = {
         roleAssignments: keyVaultRoleAssignments
         logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     }
-    dependsOn: [
-    logAnalytics
-  ]
 }
 
 
@@ -119,13 +116,13 @@ module appService 'modules/website.bicep' = {
     appServiceAppName: appServiceAppName
     appServiceAPIAppName: appServiceAPIAppName
     appServicePlanName: appServicePlanName
+    appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
     appServiceAPIDBHostDBUSER: appServiceAPIDBHostDBUSER
     appServiceAPIDBHostFLASK_APP: appServiceAPIDBHostFLASK_APP
     appServiceAPIDBHostFLASK_DEBUG: appServiceAPIDBHostFLASK_DEBUG
     appServiceAPIEnvVarDBHOST: appServiceAPIEnvVarDBHOST
     appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
-    appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
     appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey // implicit dependency
     appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
     keyVaultResourceId: keyVault.outputs.keyVaultResourceId 
@@ -183,7 +180,7 @@ module appService 'modules/website.bicep' = {
 
 
 
-// output appServiceAppHostName string = appService.outputs.appServiceAppHostName
+output appServiceAppHostName string = appService.outputs.appServiceAppHostName
 output appInsightsInstrumentationKey string = appInsights.outputs.appInsightsInstrumentationKey
 output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString 
 output logAnalyticsWorkspaceId string = logAnalytics.outputs.workspaceId

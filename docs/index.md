@@ -9,8 +9,11 @@ This repository contains the documentation for the **IE Bank Project**, detailin
 
 ### Sections
 - [Architecture Design](architecture.md)
+- [Environments Desing](environments-design.md)
 - [Requirements](requirements.md)
+- [User-stories](user-stories.md)
 - [Well-Architected Framework](well-architected.md)
+- [Release Strategy](rstrategy.md)
 - [CI/CD Pipelines](ci-cd.md)
 - [Monitoring and Telemetry](monitoring.md)
 

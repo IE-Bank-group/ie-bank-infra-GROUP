@@ -43,7 +43,7 @@ jobs:
       with:
         subscriptionId: ${{ env.SUBSCRIPTION_ID_DEV }}
         resourceGroupName: ${{ env.RESOURCE_GROUP_DEV }}
-        template: ./bootstrap/keyvault.bicep
+        template: ./bootstrap/key-vault.bicep
         parameters: vaultName=${{ env.KEY_VAULT_NAME }}
 
     - name: Initialize Secrets if Empty

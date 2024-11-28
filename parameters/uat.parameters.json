@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "environmentType": {
+        "value": "uat"
+      },
+      "postgresSQLServerName": {
+        "value": "apayne-dbsrv-uat"
+      },
+      "postgresSQLDatabaseName": {
+        "value": "apayne-db-uat"
+      },
+      "appServicePlanName": {
+        "value": "apayne-asp-uat"
+      },
+      "appServiceAPIAppName": {
+        "value": "apayne-be-uat"
+      },
+      "appServiceAppName": {
+        "value": "apayne-fe-uat"
+      },
+      "location": {
+        "value": "North Europe"
+      },
+      "containerRegistryName": {
+        "value": "apayneacruat"
+      },
+      "dockerRegistryImageName": {
+        "value": "apayne-be-uat"
+      },
+      "dockerRegistryImageTag": {
+        "value": "latest"
+      },
+      "logAnalyticsWorkspaceName": {
+        "value": "apayne-law-uat"
+      },
+      "appInsightsName": {
+        "value": "apayne-appInsights-uat"
+      },
+      "keyVaultName": {
+        "value": "apayne-kv-uat"
+      },
+      "keyVaultRoleAssignments": {
+        "value": [
+          {
+            "principalId": "daa3436a-d1fb-44fe-b34b-053db433cdb7",
+            "roleDefinitionIdOrName": "Key Vault Administrator",
+            "principalType": "Group"
+          }
+        ]
+      },
+      "keyVaultSecretNameAdminUsername": {
+        "value": "acr-username"
+      },
+      "keyVaultSecretNameAdminPassword0": {
+        "value": "acr-password0"
+      },
+      "keyVaultSecretNameAdminPassword1": {
+        "value": "acr-password1"
+      }
+    }
+  }

@@ -1,0 +1,70 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environmentType": {
+            "value": "prod"
+        },
+        "postgresAdminPassword": {
+            "value": "prod-password-from-keyvault"
+        },
+        "appServiceAPIEnvVarDBPASS": {
+            "value": "prod-db-pass-from-keyvault"
+        },
+        "postgreSQLServerName": {
+            "value": "apayne-dbsrv-prod"
+        },
+        "postgreSQLDatabaseName": {
+            "value": "apayne-db-prod"
+        },
+        "appServicePlanName": {
+            "value": "apayne-asp-prod"
+        },
+        "appServiceAPIAppName": {
+            "value": "apayne-be-prod"
+        },
+        "appServiceAppName": {
+            "value": "apayne-fe-prod"
+        },
+        "location": {
+            "value": "North Europe"
+        },
+        "containerRegistryName": {
+            "value": "apayneacruat"
+        },
+        "dockerRegistryImageName": {
+            "value": "apayne-be-prod"
+        },
+        "dockerRegistryImageTag": {
+            "value": "latest"
+        },
+        "logAnalyticsWorkspaceName": {
+            "value": "apayne-law-prod"
+        },
+        "appInsightsName": {
+            "value": "apayne-appInsights-prod"
+        },
+        "keyVaultName": {
+            "value": "apayne-kv-prod"
+        },
+        "keyVaultRoleAssignments": {
+            "value": [
+                {
+                "principalId": "daa3436a-d1fb-44fe-b34b-053db433cdb7",
+                "roleDefinitionIdOrName": "Key Vault Administrator",
+                "principalType": "Group"
+                }
+            ]
+        },
+        "keyVaultSecretNameAdminUsername": {
+            "value": "acr-username"
+        },
+        "keyVaultSecretNameAdminPassword0": {
+            "value": "acr-password0"
+        },
+        "keyVaultSecretNameAdminPassword1": {
+            "value": "acr-password1"
+        }
+        
+    }
+}

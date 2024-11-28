@@ -1,0 +1,71 @@
+
+
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environmentType": {
+            "value": "dev"
+        },
+        "postgresSQLServerName": {
+            "value": "apayne-dbsrv-dev"
+        },
+        "postgresSQLDatabaseName": {
+            "value": "apayne-db-dev"
+        },
+        "appServicePlanName": {
+            "value": "apayne-asp-dev"
+        },
+        "appServiceAPIAppName": {
+            "value": "apayne-be-dev"
+        },
+        "appServiceAppName": {
+            "value": "apayne-fe-dev"
+        },
+        "location": {
+            "value": "North Europe"
+        },
+        "containerRegistryName": {
+            "value": "apayneacrdev"
+         },
+        "dockerRegistryImageName": {
+            "value": "apayne-be-dev"
+        },
+        "dockerRegistryImageTag": {
+            "value": "latest"
+        },
+        "logAnalyticsWorkspaceName": {
+            "value": "apayne-law-dev"
+        },
+        "appInsightsName": {
+            "value": "apayne-appInsights-dev"
+        },
+        "keyVaultName": {
+            "value": "apayne-kv-dev"
+        },
+        "keyVaultRoleAssignments": {
+            "value": [
+                {
+                "principalId": "daa3436a-d1fb-44fe-b34b-053db433cdb7",
+                "roleDefinitionIdOrName": "Key Vault Administrator",
+                "principalType": "Group"
+                },
+                {
+                "principalId": "37841ca3-42b3-4aed-b215-44d6f5dcb57d",
+                "roleDefinitionIdOrName": "Key Vault Secrets User",
+                "principalType": "ServicePrincipal"
+                }
+            ]
+        },
+        "keyVaultSecretNameAdminUsername": {
+            "value": "acr-username"
+        },
+        "keyVaultSecretNameAdminPassword0": {
+            "value": "acr-password0"
+        },
+        "keyVaultSecretNameAdminPassword1": {
+            "value": "acr-password1"
+        }
+    }
+}
+

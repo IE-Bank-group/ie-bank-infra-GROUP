@@ -1,151 +1,181 @@
 @description('The environment type')
 @allowed([
-  'dev'
-  'uat'
+  'nonprod'
   'prod'
 ])
-param environmentType string = 'dev'
-param userAlias string 
+param environmentType string = 'nonprod'
 param location string = resourceGroup().location
-param skuName string 
+param userAlias string = 'apayne'
 
+// param skuName string 
 param appInsightsName string 
-
 param logAnalyticsWorkspaceName string
-// param logAnalyticsWorkspaceId string
+param logAnalyticsWorkspaceId string
 
-// App Service Parameters
-param appServicePlanName string 
-param appServiceAPIAppName string 
-@minLength(3)
-@maxLength(24)
-// param appServiceWebsiteBEName string
-@description('The app settings for the App Service website for the backend')
-param appSettings array 
+param appServiceAPIEnvVarENV string
+param appServiceAPIEnvVarDBHOST string
+param appServiceAPIEnvVarDBNAME string
+@secure()
+param appServiceAPIEnvVarDBPASS string
+param appServiceAPIDBHostDBUSER string
+param appServiceAPIDBHostFLASK_APP string
+param appServiceAPIDBHostFLASK_DEBUG string
 
-// Container Registry Parameters
-@description('The name of the container registry')
-param containerRegistryName string
-@description('The name of the default Docker image in the container registry')
-param dockerRegistryImageName string
-@description('The default version Docker image in the container registry')
-param dockerRegistryImageTag string = 'latest'
+param containerRegistryName string ='apayne-acr-dev'
 
+// param appSettings array 
+// param dockerRegistryImageName string
+// param dockerRegistryImageTag string = 'latest'
 // param dockerRegistryUsername string 
 // param dockerRegistryPassword string 
 
 
-
-
-// Key Vault Parameters
-@description('The name of the Key Vault')
-param keyVaultName string
-@description('The role assignments for the Key Vault')
-param keyVaultRoleAssignments array = []
+param keyVaultName string = 'ie-bank-kv'
+// param keyVaultRoleAssignments array = []
 
 // Derived Variables
-var acrUsernameSecretName = 'acr-username'
-var acrPassword0SecretName = 'acr-password0'
-var acrPassword1SecretName = 'acr-password1'
+// var acrUsernameSecretName = 'acr-username'
+// var acrPassword0SecretName = 'acr-password0'
+// var acrPassword1SecretName = 'acr-password1'
+
+@minLength(3)
+@maxLength(24)
+param postgresSQLServerName string = 'ie-bank-db-server-dev'
+@minLength(3)
+@maxLength(24)
+param postgresSQLDatabaseName string = 'ie-bank-db'
+@minLength(3)
+@maxLength(24)
+param appServicePlanName string = 'ie-bank-app-sp-dev'
+@minLength(3)
+@maxLength(24)
+param appServiceAppName string = 'ie-bank-dev'
+@minLength(3)
+@maxLength(24)
+param appServiceAPIAppName string = 'ie-bank-api-dev'
 
 
-// Resources
-resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-  name: keyVaultName
-}
+// resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
+//   name: keyVaultName
+// }
 
 
-
-module appServiceWebsiteBE 'modules/apps/backend-app-service.bicep' = {
-  name: 'appfe-${userAlias}'
-  params: {
-    location: location
-    appServiceAPIAppName: appServiceAPIAppName
-    appServicePlanId: appServicePlan.outputs.planId
-    environmentType: environmentType
-    appCommandLine: ''
-    appSettings: appSettings
-    containerRegistryName: containerRegistryName
-    dockerRegistryUsername: keyVaultReference.getSecret(acrUsernameSecretName)
-    dockerRegistryPassword: keyVaultReference.getSecret(acrPassword0SecretName)
-    dockerRegistryImageName: dockerRegistryImageName
-    dockerRegistryImageTag: dockerRegistryImageTag
+resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
+  name: postgresSQLServerName
+  location: location
+  sku: {
+    name: 'Standard_B1ms'
+    tier: 'Burstable'
+    }
+  properties: {
+    administratorLogin: 'iebankdbadmin'
+    administratorLoginPassword: 'IE.Bank.DB.Admin.Pa$$'    //appServiceAPIEnvVarDBPASS  
+    version: '15'
+    createMode: 'Default'
+    // authConfig: {activeDirectoryAuth: 'Enabled', passwordAuth: 'Enabled', tenantId: subscription().tenantId }
+    storage: {
+      storageSizeGB: 32
+    }
+    backup: {
+      backupRetentionDays: 7
+      geoRedundantBackup: 'Disabled'
+    }
+    highAvailability:{
+      mode: 'Disabled'
+      standbyAvailabilityZone: ''
+    }
   }
-  dependsOn: [
-    appServicePlan
-    containerRegistry
-    keyVaultReference
-  ]
-}
 
-// Other Modules
-module appServicePlan 'modules/apps/app-service-plan.bicep' = {
-  name: 'appServicePlan-${environmentType}'
-  params: {
-    location: location
-    appServicePlanName: appServicePlanName
-    skuName: skuName 
+
+    resource serverFirewallRules 'firewallRules@2022-12-01' = {
+      name: 'AllowAllAzureServices'
+      properties: {
+        startIpAddress: '0.0.0.0'
+        endIpAddress: '0.0.0.0'
+      }
+    }
+  }
+
+
+resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2022-12-01' = {
+  name: postgresSQLDatabaseName
+  parent: postgresSQLServer
+  properties: {
+    charset: 'UTF8'
+    collation: 'en_US.UTF8'
   }
 }
-
 
 
 module containerRegistry 'modules/container-registry.bicep' = {
-  name: 'containerRegistry-${environmentType}'
+  name: 'acr-${userAlias}'
   params: {
     name: containerRegistryName
-    location: location
-    keyVaultResourceId: keyVaultReference.id
-    keyVaultSecretNameAdminUsername: acrUsernameSecretName
-    keyVaultSecretNameAdminPassword0: acrPassword0SecretName
-    keyVaultSecretNameAdminPassword1: acrPassword1SecretName
-    workspaceResourceId: logAnalytics.outputs.workspaceId
+    location:location
   }
-  dependsOn: [
-    keyVaultReference
-  ]
 }
 
 
-module logAnalytics 'modules/log-analytics.bicep' = {
-  name: 'logAnalytics-${environmentType}'
+
+module appService 'modules/app-service.bicep' = {
+  name: 'appService-${userAlias}'
   params: {
     location: location
-    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
+    appServiceAppName: appServiceAppName
+    appServiceAPIAppName: appServiceAPIAppName
+    appServicePlanName: appServicePlanName
+    environmentType: environmentType
+    appServiceAPIDBHostDBUSER: appServiceAPIDBHostDBUSER
+    appServiceAPIDBHostFLASK_APP: appServiceAPIDBHostFLASK_APP
+    appServiceAPIDBHostFLASK_DEBUG: appServiceAPIDBHostFLASK_DEBUG
+    appServiceAPIEnvVarDBHOST: appServiceAPIEnvVarDBHOST
+    appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
+    appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
+    appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
   }
+  dependsOn: [
+    containerRegistry
+    postgresSQLDatabase
+  ]
 }
 
 
 module keyVault 'modules/key-vault.bicep' = {
-  name: 'keyVault-${environmentType}'
+  name: 'kv-${userAlias}'
   params: {
-    keyVaultName: keyVaultName
     location: location
-    roleAssignments: keyVaultRoleAssignments
+    keyVaultName: keyVaultName
   }
-  dependsOn: [
-    logAnalytics
-  ]
 }
+
+
+module logAnalytics 'modules/log-analytics.bicep' = {
+  name: 'logAnalytics-${userAlias}'
+  params: {
+    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
+    location: location
+  }
+}
+
 
 module appInsights 'modules/application-insights.bicep' = {
-  name: 'appInsights-${environmentType}'
+  name: 'appInsights-${userAlias}'
   params: {
-    appInsightsName: appInsightsName
     location: location
-    logAnalyticsWorkspaceId: logAnalytics.outputs.workspaceId
+    appInsightsName: appInsightsName
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }
-  dependsOn: [
-    logAnalytics
-  ]
 }
 
 
 
-// Outputs
-output appServiceAppHostName string = appServiceWebsiteBE.outputs.appServiceAppHostName
-output appInsightsInstrumentationKey string = appInsights.outputs.appInsightsInstrumentationKey
-output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString
-output logAnalyticsWorkspaceId string = logAnalytics.outputs.workspaceId
-output logAnalyticsWorkspaceName string = logAnalytics.outputs.logAnalyticsWorkspaceName
+
+output appServiceAppHostName string = appService.outputs.appServiceAppHostName
+
+// // Outputs
+// output appServiceAppHostName string = appServiceWebsiteBE.outputs.appServiceAppHostName
+// output appInsightsInstrumentationKey string = appInsights.outputs.appInsightsInstrumentationKey
+// output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString
+// output logAnalyticsWorkspaceId string = logAnalytics.outputs.workspaceId
+// output logAnalyticsWorkspaceName string = logAnalytics.outputs.logAnalyticsWorkspaceName
 

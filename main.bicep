@@ -163,7 +163,7 @@ module appInsights 'modules/application-insights.bicep' = {
   params: {
     location: location
     appInsightsName: appInsightsName
-    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }
 }
 

@@ -1,6 +1,6 @@
 param appInsightsName string
 param location string
-param logAnalyticsWorkspaceId string
+// param logAnalyticsWorkspaceId string
 // @allowed([
 //   'web'
 //   'other'
@@ -12,9 +12,9 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   kind: 'web'
   properties: {
     Application_Type: 'web'
-    WorkspaceResourceId: logAnalyticsWorkspaceId
+    // WorkspaceResourceId: logAnalyticsWorkspaceId
   }
 }
 
-output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
-output appInsightsConnectionString string = appInsights.properties.ConnectionString
+// output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
+// output appInsightsConnectionString string = appInsights.properties.ConnectionString

@@ -34,6 +34,18 @@ param dockerRegistryImageTag string = 'latest'
 // param dockerRegistryUsername string 
 // param dockerRegistryPassword string 
 
+@description('Database host for the App Service API')
+param appServiceAPIEnvVarDBHOST string
+
+@description('Database name for the App Service API')
+param appServiceAPIEnvVarDBNAME string
+
+@description('Database user for the App Service API')
+param appServiceAPIDBHostDBUSER string
+
+@secure()
+@description('Database password for the App Service API')
+param appServiceAPIEnvVarDBPASS string
 
 
 

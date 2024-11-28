@@ -5,15 +5,23 @@
   'prod'
 ])
 param environmentType string = 'dev'
-
+param userAlias string 
 param location string = resourceGroup().location
+param skuName string 
+
+param appInsightsName string 
+
+param logAnalyticsWorkspaceName string
+// param logAnalyticsWorkspaceId string
 
 // App Service Parameters
+param appServicePlanName string 
+param appServiceAPIAppName string 
 @minLength(3)
 @maxLength(24)
-param appServiceWebsiteBEName string
+// param appServiceWebsiteBEName string
 @description('The app settings for the App Service website for the backend')
-param appServiceWebsiteBeAppSettings array = []
+param appSettings array 
 
 // Container Registry Parameters
 @description('The name of the container registry')
@@ -21,7 +29,13 @@ param containerRegistryName string
 @description('The name of the default Docker image in the container registry')
 param dockerRegistryImageName string
 @description('The default version Docker image in the container registry')
-param dockerRegistryImageVersion string = 'latest'
+param dockerRegistryImageTag string = 'latest'
+
+// param dockerRegistryUsername string 
+// param dockerRegistryPassword string 
+
+
+
 
 // Key Vault Parameters
 @description('The name of the Key Vault')
@@ -34,24 +48,28 @@ var acrUsernameSecretName = 'acr-username'
 var acrPassword0SecretName = 'acr-password0'
 var acrPassword1SecretName = 'acr-password1'
 
+
 // Resources
 resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   name: keyVaultName
 }
 
+
+
 module appServiceWebsiteBE 'modules/apps/backend-app-service.bicep' = {
   name: 'appfe-${userAlias}'
   params: {
-    name: appServiceWebsiteBEName
     location: location
-    appServicePlanId: appServicePlan.outputs.id
+    appServiceAPIAppName: appServiceAPIAppName
+    appServicePlanId: appServicePlan.outputs.planId
+    environmentType: environmentType
     appCommandLine: ''
-    appSettings: appServiceWebsiteBeAppSettings
-    dockerRegistryName: containerRegistryName
-    dockerRegistryServerUserName: keyVaultReference.getSecret(acrUsernameSecretName)
-    dockerRegistryServerPassword: keyVaultReference.getSecret(acrPassword0SecretName)
+    appSettings: appSettings
+    containerRegistryName: containerRegistryName
+    dockerRegistryUsername: keyVaultReference.getSecret(acrUsernameSecretName)
+    dockerRegistryPassword: keyVaultReference.getSecret(acrPassword0SecretName)
     dockerRegistryImageName: dockerRegistryImageName
-    dockerRegistryImageVersion: dockerRegistryImageVersion
+    dockerRegistryImageTag: dockerRegistryImageTag
   }
   dependsOn: [
     appServicePlan
@@ -65,10 +83,12 @@ module appServicePlan 'modules/apps/app-service-plan.bicep' = {
   name: 'appServicePlan-${environmentType}'
   params: {
     location: location
-    environmentType: environmentType
-    appServicePlanName: appServicePlan
+    appServicePlanName: appServicePlanName
+    skuName: skuName 
   }
 }
+
+
 
 module containerRegistry 'modules/container-registry.bicep' = {
   name: 'containerRegistry-${environmentType}'
@@ -86,13 +106,15 @@ module containerRegistry 'modules/container-registry.bicep' = {
   ]
 }
 
+
 module logAnalytics 'modules/log-analytics.bicep' = {
   name: 'logAnalytics-${environmentType}'
   params: {
     location: location
-    workspaceName: logAnalyticsWorkspaceName
+    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
   }
 }
+
 
 module keyVault 'modules/key-vault.bicep' = {
   name: 'keyVault-${environmentType}'
@@ -100,7 +122,6 @@ module keyVault 'modules/key-vault.bicep' = {
     keyVaultName: keyVaultName
     location: location
     roleAssignments: keyVaultRoleAssignments
-    logAnalyticsWorkspaceId: logAnalytics.outputs.workspaceId
   }
   dependsOn: [
     logAnalytics
@@ -119,9 +140,12 @@ module appInsights 'modules/application-insights.bicep' = {
   ]
 }
 
+
+
 // Outputs
-output appServiceAppHostName string = backendAPIApp.outputs.appServiceAppHostName
+output appServiceAppHostName string = appServiceWebsiteBE.outputs.appServiceAppHostName
 output appInsightsInstrumentationKey string = appInsights.outputs.appInsightsInstrumentationKey
 output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString
 output logAnalyticsWorkspaceId string = logAnalytics.outputs.workspaceId
-output logAnalyticsWorkspaceName string = logAnalytics.outputs.workspaceName
+output logAnalyticsWorkspaceName string = logAnalytics.outputs.logAnalyticsWorkspaceName
+

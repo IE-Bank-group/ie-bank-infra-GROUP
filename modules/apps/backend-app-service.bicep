@@ -6,12 +6,14 @@ param dockerRegistryImageName string
 param dockerRegistryImageTag string = 'latest'
 
 @secure()
-param dockerRegistryUserName string
+param dockerRegistryUsername string
 @secure()
 param dockerRegistryPassword string
 
 param appSettings array = []
 param appCommandLine string = ''
+
+
 
 @allowed([
   'dev'
@@ -35,7 +37,7 @@ var alwaysOnSetting = backendConfig[environmentType].alwaysOn
 
 var dockerAppSettings = [
   { name: 'DOCKER_REGISTRY_SERVER_URL', value: 'https://${containerRegistryName}.azurecr.io'}
-  { name: 'DOCKER_REGISTRY_SERVER_USERNAME', value: dockerRegistryUserName }
+  { name: 'DOCKER_REGISTRY_SERVER_USERNAME', value: dockerRegistryUsername }
   { name: 'DOCKER_REGISTRY_SERVER_PASSWORD', value: dockerRegistryPassword }
 ]
 

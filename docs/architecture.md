@@ -70,6 +70,26 @@ This diagram represents how data flows through the IE Bank system.
 - **Login:** Authentication verified against `Users` table.
 ---
 
+# Sequence Diagram
+
+## User Registration
+
+![Diagram](img/user_registration.png)
+
+## User Login
+
+![Diagram](img/user_login.png)
+
+## Deposit Fonds
+
+![Diagram](img/deposit_fonds.png)
+
+## Transfer Fonds
+
+![Diagram](img/transfer_fonds.png)
+
+---
+
 # 12 Factor App Design
 
 ## Principles and Application

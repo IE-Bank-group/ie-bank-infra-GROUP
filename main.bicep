@@ -47,6 +47,7 @@ param appServiceAPIDBHostDBUSER string
 @description('Database password for the App Service API')
 param appServiceAPIEnvVarDBPASS string
 
+param appServiceAPIDBHostFLASK_APP string
 
 
 // Key Vault Parameters

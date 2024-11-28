@@ -61,10 +61,10 @@
             "value": "acr-username"
         },
         "keyVaultSecretNameAdminPassword0": {
-            "value": "acr-username"
+            "value": "acr-password0"
         },
         "keyVaultSecretNameAdminPassword1": {
-            "value": "acr-username"
+            "value": "acr-password1"
         }
     }
 }

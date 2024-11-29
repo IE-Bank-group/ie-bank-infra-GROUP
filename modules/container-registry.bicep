@@ -82,9 +82,9 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
 
 
 
-output containerRegistryUserName string = containerRegistry.listCredentials().username
-output containerRegistryPassword0 string = containerRegistry.listCredentials().passwords[0].value
-output containerRegistryPassword1 string = containerRegistry.listCredentials().passwords[1].value
+// output containerRegistryUserName string = containerRegistry.listCredentials().username
+// output containerRegistryPassword0 string = containerRegistry.listCredentials().passwords[0].value
+// output containerRegistryPassword1 string = containerRegistry.listCredentials().passwords[1].value
 
 //disable-next-line outputs-should-not-contain-secrets
 // output containerRegistryUserName string = containerRegistry.listCredentials().username

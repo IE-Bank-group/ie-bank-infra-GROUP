@@ -21,7 +21,7 @@ param appServiceAPIDBHostDBUSER string
 param appServiceAPIDBHostFLASK_APP string
 param appServiceAPIDBHostFLASK_DEBUG string
 
-param containerRegistryName string ='apayne-acr-dev'
+param containerRegistryName string ='apayne-acr'
 
 // param appSettings array 
 // param dockerRegistryImageName string
@@ -40,19 +40,19 @@ param keyVaultName string = 'ie-bank-kv'
 
 @minLength(3)
 @maxLength(24)
-param postgresSQLServerName string = 'ie-bank-db-server-dev'
+param postgresSQLServerName string = 'ie-bank-db-server'
 @minLength(3)
 @maxLength(24)
 param postgresSQLDatabaseName string = 'ie-bank-db'
 @minLength(3)
 @maxLength(24)
-param appServicePlanName string = 'ie-bank-app-sp-dev'
+param appServicePlanName string = 'ie-bank-app-sp'
 @minLength(3)
 @maxLength(24)
-param appServiceAppName string = 'ie-bank-dev'
+param appServiceAppName string = 'ie-bank'
 @minLength(3)
 @maxLength(24)
-param appServiceAPIAppName string = 'ie-bank-api-dev'
+param appServiceAPIAppName string = 'ie-bank-api'
 
 
 // resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
@@ -108,7 +108,7 @@ resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/database
 
 
 module containerRegistry 'modules/container-registry.bicep' = {
-  name: 'acr-${userAlias}'
+  name: 'acr-${userAlias}-${environmentType}'
   params: {
     name: containerRegistryName
     location:location
@@ -118,7 +118,7 @@ module containerRegistry 'modules/container-registry.bicep' = {
 
 
 module appService 'modules/app-service.bicep' = {
-  name: 'appService-${userAlias}'
+  name: 'appService-${userAlias}-${environmentType}'
   params: {
     location: location
     appServiceAppName: appServiceAppName
@@ -141,7 +141,7 @@ module appService 'modules/app-service.bicep' = {
 
 
 module keyVault 'modules/key-vault.bicep' = {
-  name: 'kv-${userAlias}'
+  name: 'kv-${userAlias}-${environmentType}'
   params: {
     location: location
     keyVaultName: keyVaultName
@@ -150,7 +150,7 @@ module keyVault 'modules/key-vault.bicep' = {
 
 
 module logAnalytics 'modules/log-analytics.bicep' = {
-  name: 'logAnalytics-${userAlias}'
+  name: 'logAnalytics-${userAlias}-${environmentType}'
   params: {
     logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
     location: location
@@ -159,7 +159,7 @@ module logAnalytics 'modules/log-analytics.bicep' = {
 
 
 module appInsights 'modules/application-insights.bicep' = {
-  name: 'appInsights-${userAlias}'
+  name: 'appInsights-${userAlias}-${environmentType}'
   params: {
     location: location
     appInsightsName: appInsightsName

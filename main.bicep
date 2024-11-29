@@ -55,9 +55,72 @@ param appServiceAppName string = 'ie-bank'
 param appServiceAPIAppName string = 'ie-bank-api'
 
 
-// resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-//   name: keyVaultName
-// }
+// Key Vault
+@description('The Key Vault name')
+param keyVaultName string
+@description('The Key Vault SKU')
+param keyVaultSku string
+param enableSoftDelete bool 
+@sys.description('The role assignments for the Key Vault')
+param keyVaultRoleAssignments array 
+
+module logAnalytics 'modules/log-analytics.bicep' = {
+  name: 'logAnalytics-${userAlias}-${environmentType}'
+  params: {
+    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
+    location: location
+  }
+}
+
+
+
+
+
+module appInsights 'modules/application-insights.bicep' = {
+  name: 'appInsights-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    appInsightsName: appInsightsName
+    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+  }
+}
+
+module keyVault 'modules/key-vault.bicep' = {
+  name: 'kv-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    keyVaultName: keyVaultName
+    roleAssignments: keyVaultRoleAssignments
+    }
+}
+
+resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
+  name: keyVaultName
+  }
+
+
+
+module appService 'modules/app-service.bicep' = {
+  name: 'appService-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    appServiceAppName: appServiceAppName
+    appServiceAPIAppName: appServiceAPIAppName
+    appServicePlanName: appServicePlanName
+    environmentType: environmentType
+    appServiceAPIDBHostDBUSER: appServiceAPIDBHostDBUSER
+    appServiceAPIDBHostFLASK_APP: appServiceAPIDBHostFLASK_APP
+    appServiceAPIDBHostFLASK_DEBUG: appServiceAPIDBHostFLASK_DEBUG
+    appServiceAPIEnvVarDBHOST: appServiceAPIEnvVarDBHOST
+    appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
+    appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
+    appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
+  }
+  dependsOn: [
+    containerRegistry
+    postgresSQLDatabase
+  ]
+}
 
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
@@ -115,58 +178,6 @@ module containerRegistry 'modules/container-registry.bicep' = {
   }
 }
 
-
-
-module appService 'modules/app-service.bicep' = {
-  name: 'appService-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    appServiceAppName: appServiceAppName
-    appServiceAPIAppName: appServiceAPIAppName
-    appServicePlanName: appServicePlanName
-    environmentType: environmentType
-    appServiceAPIDBHostDBUSER: appServiceAPIDBHostDBUSER
-    appServiceAPIDBHostFLASK_APP: appServiceAPIDBHostFLASK_APP
-    appServiceAPIDBHostFLASK_DEBUG: appServiceAPIDBHostFLASK_DEBUG
-    appServiceAPIEnvVarDBHOST: appServiceAPIEnvVarDBHOST
-    appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
-    appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
-    appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
-  }
-  dependsOn: [
-    containerRegistry
-    postgresSQLDatabase
-  ]
-}
-
-
-module keyVault 'modules/key-vault.bicep' = {
-  name: 'kv-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    keyVaultName: keyVaultName
-    roleAssignments: keyVaultRoleAssignments
-    }
-}
-
-
-module logAnalytics 'modules/log-analytics.bicep' = {
-  name: 'logAnalytics-${userAlias}-${environmentType}'
-  params: {
-    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
-    location: location
-  }
-}
-
-
-module appInsights 'modules/application-insights.bicep' = {
-  name: 'appInsights-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    appInsightsName: appInsightsName
-    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-  }
-}
 
 
 

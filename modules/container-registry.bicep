@@ -47,3 +47,5 @@ resource secretAdminUserPassword1 'Microsoft.KeyVault/vaults/secrets@2023-02-01'
     value: containerRegistry.listCredentials().passwords[1].value
 }
 }
+
+output registryLoginServer string = containerRegistry.properties.loginServer

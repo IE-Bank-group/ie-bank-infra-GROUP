@@ -10,7 +10,7 @@ param userAlias string = 'apayne'
 // param skuName string 
 param appInsightsName string 
 param logAnalyticsWorkspaceName string
-param logAnalyticsWorkspaceId string
+// param logAnalyticsWorkspaceId string
 
 param appServiceAPIEnvVarENV string
 param appServiceAPIEnvVarDBHOST string

@@ -1,9 +1,9 @@
 param name string
 param location string = resourceGroup().location
-// param keyVaultResourceId string
-// param keyVaultSecretNameAdminUsername string
-// param keyVaultSecretNameAdminPassword0 string
-// param keyVaultSecretNameAdminPassword1 string
+param keyVaultResourceId string
+param keyVaultSecretNameAdminUsername string
+param keyVaultSecretNameAdminPassword0 string
+param keyVaultSecretNameAdminPassword1 string
 // param workspaceResourceId string
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {

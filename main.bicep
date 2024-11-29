@@ -31,7 +31,7 @@ param containerRegistryName string ='apayne-acr'
 
 
 param keyVaultName string = 'ie-bank-kv'
-// param keyVaultRoleAssignments array = []
+param keyVaultRoleAssignments array 
 
 // Derived Variables
 // var acrUsernameSecretName = 'acr-username'
@@ -145,7 +145,8 @@ module keyVault 'modules/key-vault.bicep' = {
   params: {
     location: location
     keyVaultName: keyVaultName
-  }
+    roleAssignments: keyVaultRoleAssignments
+    }
 }
 
 

@@ -29,8 +29,7 @@ param containerRegistryName string ='apayne-acr'
 // param dockerRegistryUsername string 
 // param dockerRegistryPassword string 
 
-
-param keyVaultName string = 'ie-bank-kv'
+param keyVaultName string = 'anna-kv${uniqueString(resourceGroup().id)}'
 param keyVaultRoleAssignments array 
 
 // Derived Variables

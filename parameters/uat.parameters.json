@@ -2,8 +2,11 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+      "userAlias": {
+        "value": "apayne"
+      }, 
       "environmentType": {
-        "value": "uat"
+        "value": "nonprod"
       },
       "postgresSQLServerName": {
         "value": "apayne-dbsrv-uat"
@@ -26,12 +29,6 @@
       "containerRegistryName": {
         "value": "apayneacruat"
       },
-      "dockerRegistryImageName": {
-        "value": "apayne-be-uat"
-      },
-      "dockerRegistryImageTag": {
-        "value": "latest"
-      },
       "logAnalyticsWorkspaceName": {
         "value": "apayne-law-uat"
       },
@@ -47,17 +44,13 @@
             "principalId": "daa3436a-d1fb-44fe-b34b-053db433cdb7",
             "roleDefinitionIdOrName": "Key Vault Administrator",
             "principalType": "Group"
-          }
+            },
+            {
+            "principalId": "37841ca3-42b3-4aed-b215-44d6f5dcb57d",
+            "roleDefinitionIdOrName": "Key Vault Secrets User",
+            "principalType": "ServicePrincipal"
+            }
         ]
-      },
-      "keyVaultSecretNameAdminUsername": {
-        "value": "acr-username"
-      },
-      "keyVaultSecretNameAdminPassword0": {
-        "value": "acr-password0"
-      },
-      "keyVaultSecretNameAdminPassword1": {
-        "value": "acr-password1"
       }
     }
-  }
+}

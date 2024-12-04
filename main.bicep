@@ -60,51 +60,15 @@ param appServiceAPIAppName string = 'ie-bank-api'
 // }
 
 
-resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
-  name: postgresSQLServerName
-  location: location
-  sku: {
-    name: 'Standard_B1ms'
-    tier: 'Burstable'
-    }
-  properties: {
-    administratorLogin: 'iebankdbadmin'
-    administratorLoginPassword: 'IE.Bank.DB.Admin.Pa$$'    //appServiceAPIEnvVarDBPASS  
-    version: '15'
-    createMode: 'Default'
-    // authConfig: {activeDirectoryAuth: 'Enabled', passwordAuth: 'Enabled', tenantId: subscription().tenantId }
-    storage: {
-      storageSizeGB: 32
-    }
-    backup: {
-      backupRetentionDays: 7
-      geoRedundantBackup: 'Disabled'
-    }
-    highAvailability:{
-      mode: 'Disabled'
-      standbyAvailabilityZone: ''
-    }
+module appDatabase 'modules/database.bicep' = {
+  name: 'appDatabase-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    postgresSQLDatabaseName: postgresSQLDatabaseName
+    postgresSQLServerName: postgresSQLServerName
   }
 
-
-    resource serverFirewallRules 'firewallRules@2022-12-01' = {
-      name: 'AllowAllAzureServices'
-      properties: {
-        startIpAddress: '0.0.0.0'
-        endIpAddress: '0.0.0.0'
-      }
-    }
-  }
-
-
-resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2022-12-01' = {
-  name: postgresSQLDatabaseName
-  parent: postgresSQLServer
-  properties: {
-    charset: 'UTF8'
-    collation: 'en_US.UTF8'
-  }
-}
+}  
 
 
 module containerRegistry 'modules/container-registry.bicep' = {
@@ -135,7 +99,7 @@ module appService 'modules/app-service.bicep' = {
   }
   dependsOn: [
     containerRegistry
-    postgresSQLDatabase
+    // postgresSQLDatabase
   ]
 }
 

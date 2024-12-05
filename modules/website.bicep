@@ -28,7 +28,7 @@ param postgresSQLServerName string
 
 param appInsightsName string 
 
-param keyVaultResourceId string 
+// param keyVaultResourceId string 
 
 param logAnalyticsWorkspaceId string 
 
@@ -110,7 +110,7 @@ module containerRegistry './container-registry.bicep' = {
   params: {
     name: containerRegistryName
     location:location
-    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }
 }
 
@@ -135,9 +135,9 @@ module appInsights './application-insights.bicep' = {
 }
 
 
-resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-  name: last(split(keyVaultResourceId, '/'))
-}
+// resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
+//   name: last(split(keyVaultResourceId, '/'))
+// }
 
 
 // need static web app url, endpoints, resource name 

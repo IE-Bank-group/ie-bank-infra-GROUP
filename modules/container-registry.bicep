@@ -4,7 +4,7 @@ param location string = resourceGroup().location
 // param keyVaultSecretNameAdminUsername string
 // param keyVaultSecretNameAdminPassword0 string
 // param keyVaultSecretNameAdminPassword1 string
-// param workspaceResourceId string
+param logAnalyticsWorkspaceId string
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   name: name
@@ -17,29 +17,29 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
   }
 }
 
-// resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-//   name: '${name}-diag'
-//   scope: containerRegistry
-//   properties: {
-//     workspaceId: workspaceResourceId
-//     metrics: [
-//       {
-//         category: 'AllMetrics'
-//         enabled: true
-//       }
-//     ]
-//     logs: [
-//       {
-//         categoryGroup: 'allLogs'
-//         enabled: true
-//       }
-//       {
-//         categoryGroup: 'audit'
-//         enabled: true
-//       }
-//     ]
-//   }
-// }
+resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: '${name}-diag'
+  scope: containerRegistry
+  properties: {
+    workspaceId: logAnalyticsWorkspaceId
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+      }
+    ]
+    logs: [
+      {
+        categoryGroup: 'allLogs'
+        enabled: true
+      }
+      {
+        categoryGroup: 'audit'
+        enabled: true
+      }
+    ]
+  }
+}
 
 
 // //TRINIS CODE 

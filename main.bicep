@@ -81,7 +81,7 @@ module containerRegistry 'modules/container-registry.bicep' = {
 
 
 
-module appService 'modules/app-service.bicep' = {
+module appService 'modules/website.bicep' = {
   name: 'appService-${userAlias}-${environmentType}'
   params: {
     location: location

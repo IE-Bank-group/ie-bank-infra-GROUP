@@ -43,7 +43,7 @@ jobs:
         subscriptionId: ${{env.SUBSCRIPTION_ID_DEV}}
         resourceGroupName: ${{ env.RESOURCE_GROUP_DEV}}
         template: ./main.bicep
-        parameters: ./paramters/dev.parameters.json appServiceAPIEnvVarENV=${{vars.ENV}} appServiceAPIEnvVarDBHOST=${{ vars.DBHOST }} appServiceAPIEnvVarDBNAME=${{ vars.DBNAME }} appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ vars.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ vars.FLASK_DEBUG }}
+        parameters: ./parameters/dev.parameters.json appServiceAPIEnvVarENV=${{vars.ENV}} appServiceAPIEnvVarDBHOST=${{ vars.DBHOST }} appServiceAPIEnvVarDBNAME=${{ vars.DBNAME }} appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ vars.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ vars.FLASK_DEBUG }}
         deploymentMode: Validate
 
   validate-uat:
@@ -61,7 +61,7 @@ jobs:
         subscriptionId: ${{env.SUBSCRIPTION_ID_DEV}}
         resourceGroupName: ${{ env.RESOURCE_GROUP_DEV}}
         template: ./main.bicep
-        parameters: ./paramters/uat.parameters.json appServiceAPIEnvVarENV=${{vars.ENV}} appServiceAPIEnvVarDBHOST=${{ vars.DBHOST }} appServiceAPIEnvVarDBNAME=${{ vars.DBNAME }} appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ vars.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ vars.FLASK_DEBUG }}
+        parameters: ./parameters/uat.parameters.json appServiceAPIEnvVarENV=${{vars.ENV}} appServiceAPIEnvVarDBHOST=${{ vars.DBHOST }} appServiceAPIEnvVarDBNAME=${{ vars.DBNAME }} appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ vars.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ vars.FLASK_DEBUG }}
         deploymentMode: Validate
 
 

@@ -1,7 +1,8 @@
 param location string = resourceGroup().location
 param keyVaultName string = 'anna-kv${uniqueString(resourceGroup().id)}'
 param roleAssignments array 
-
+param logAnalyticsWorkspaceId string 
+param diagnosticSettingName string = 'myDiagnosticSetting'
 
 
 var builtInRoleNames = {
@@ -84,8 +85,8 @@ resource keyVault_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-
     name: guid(keyVault.id, roleAssignment.principalId, roleAssignment.roleDefinitionIdOrName)
     properties: {
       roleDefinitionId: builtInRoleNames[?roleAssignment.roleDefinitionIdOrName] ?? roleAssignment.roleDefinitionIdOrName
-      principalId: roleAssignment.principalId
       description: roleAssignment.?description
+      principalId: roleAssignment.principalId
       principalType: roleAssignment.?principalType
       condition: roleAssignment.?condition
       conditionVersion: !empty(roleAssignment.?condition) ? (roleAssignment.?conditionVersion ?? '2.0') : null 
@@ -96,8 +97,31 @@ resource keyVault_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-
 ]
 
 
+resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: diagnosticSettingName
+  scope: keyVault
+  properties: {
+    workspaceId: logAnalyticsWorkspaceId
+    logs: [
+      {
+        category: 'AuditEvent'
+        enabled: true
+      }
+    ]
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+      }
+    ]
+  }
+}
+
+
+
+
 
 
 output keyVaultResourceId string = keyVault.id
 output keyVaultName string = keyVault.name
-output keyVaultUri string = keyVault.properties.vaultUri
+// output keyVaultUri string = keyVault.properties.vaultUri

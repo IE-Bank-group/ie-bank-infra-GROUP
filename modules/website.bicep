@@ -30,6 +30,8 @@ param appInsightsName string
 
 param keyVaultResourceId string 
 
+param logAnalyticsWorkspaceId string 
+
 
 
 
@@ -127,7 +129,7 @@ module appInsights './application-insights.bicep' = {
   params: {
     location: location
     appInsightsName: appInsightsName
-    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }
 }
 

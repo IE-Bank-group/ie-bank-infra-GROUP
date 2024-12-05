@@ -58,11 +58,14 @@ param appServiceAPIAppName string = 'ie-bank-api'
 param sku string 
 
 
-// resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-//   name: keyVaultName
-// }
 
-
+module logAnalytics 'modules/log-analytics.bicep' = {
+  name: 'logAnalytics-${userAlias}-${environmentType}'
+  params: {
+    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
+    location: location
+  }
+}
 
 
 module appService 'modules/website.bicep' = {
@@ -89,6 +92,7 @@ module appService 'modules/website.bicep' = {
     postgresSQLServerName: postgresSQLServerName
     appInsightsName: appInsightsName
     keyVaultResourceId: keyVault.outputs.keyVaultResourceId
+    logAnalyticsWorkspaceId: logAnalytics.outputs.workspaceId
   }
 }
 
@@ -99,27 +103,12 @@ module keyVault 'modules/key-vault.bicep' = {
     location: location
     keyVaultName: keyVaultName
     roleAssignments: keyVaultRoleAssignments
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceName
     }
 }
 
 
-module logAnalytics 'modules/log-analytics.bicep' = {
-  name: 'logAnalytics-${userAlias}-${environmentType}'
-  params: {
-    logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
-    location: location
-  }
-}
 
-
-// module appInsights 'modules/application-insights.bicep' = {
-//   name: 'appInsights-${userAlias}-${environmentType}'
-//   params: {
-//     location: location
-//     appInsightsName: appInsightsName
-//     // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-//   }
-// }
 
 
 

@@ -13,5 +13,4 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06
 }
 
 output workspaceId string = logAnalyticsWorkspace.id
-// output workspaceKey string = listKeys(logAnalyticsWorkspace.id, logAnalyticsWorkspace.apiVersion).primarySharedKey
 output logAnalyticsWorkspaceName string = logAnalyticsWorkspace.name

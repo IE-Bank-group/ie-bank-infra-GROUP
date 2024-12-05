@@ -1,7 +1,8 @@
 param appServiceAppName string
-param location string = resourceGroup().location
+// param location string = resourceGroup().location
 // param appServicePlanId string
 param sku string 
+param webLocation string 
 
 //NEEDS APPINSIGHTS CONNECTIONS 
 
@@ -31,7 +32,7 @@ param sku string
 //converted to static web app
 resource appServiceApp 'Microsoft.Web/staticSites@2024-04-01' = {
   name: appServiceAppName
-  location: location
+  location: webLocation
   properties: {
     allowConfigFileUpdates: false
   }

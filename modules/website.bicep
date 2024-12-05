@@ -2,6 +2,7 @@ param appServicePlanName string
 param appServicePlanSkuName string = (environmentType == 'prod') ? 'B1' : 'B1'
 param sku string 
 param location string = resourceGroup().location
+param webLocation string
 @allowed([
   'nonprod'
   'prod' 
@@ -34,7 +35,8 @@ module appServiceApp './fe-app-service.bicep' = {
   name: appServiceAppName
   params: {
     appServiceAppName: appServiceAppName
-    location: location
+    // location: location
+    webLocation: webLocation
     // appServicePlanId: appServicePlan.outputs.planId
     sku: sku
   }

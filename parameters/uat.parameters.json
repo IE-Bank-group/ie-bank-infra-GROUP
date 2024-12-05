@@ -26,6 +26,9 @@
       "location": {
         "value": "North Europe"
       },
+      "webLocation": {
+          "value": "West Europe"
+      },
       "containerRegistryName": {
         "value": "apayneacruat"
       },

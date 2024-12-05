@@ -5,6 +5,7 @@
 ])
 param environmentType string = 'nonprod'
 param location string = resourceGroup().location
+param webLocation string 
 param userAlias string = 'apayne'
 
 // param skuName string 
@@ -87,6 +88,7 @@ module appService 'modules/website.bicep' = {
   name: 'appService-${userAlias}-${environmentType}'
   params: {
     location: location
+    webLocation: webLocation
     appServiceAppName: appServiceAppName
     appServiceAPIAppName: appServiceAPIAppName
     appServicePlanName: appServicePlanName

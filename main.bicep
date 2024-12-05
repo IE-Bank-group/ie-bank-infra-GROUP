@@ -88,6 +88,7 @@ module appService 'modules/website.bicep' = {
     postgresSQLDatabaseName: postgresSQLDatabaseName
     postgresSQLServerName: postgresSQLServerName
     appInsightsName: appInsightsName
+    keyVaultResourceId: keyVault.outputs.keyVaultResourceId
   }
 }
 

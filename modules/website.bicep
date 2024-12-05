@@ -8,7 +8,6 @@ param location string = resourceGroup().location
 param environmentType string 
 param appServiceAppName string
 param appServiceAPIAppName string 
-param appCommandLine string = ''
 
 param appServiceAPIDBHostDBUSER string 
 param appServiceAPIDBHostFLASK_APP string 
@@ -48,7 +47,6 @@ module appServiceAPIApp './be-app-service.bicep'= {
   params: {
     appServiceAPIAppName: appServiceAPIAppName
     location: location
-    appCommandLine: appCommandLine
     appServicePlanId: appServicePlan.outputs.planId
     appSettings: [
       {

@@ -31,12 +31,17 @@ param containerRegistryName string ='apayne-acr'
 
 
 param keyVaultName string = 'ie-bank-kv'
-param keyVaultRoleAssignments array 
 
-// Derived Variables
-// var acrUsernameSecretName = 'acr-username'
-// var acrPassword0SecretName = 'acr-password0'
-// var acrPassword1SecretName = 'acr-password1'
+param keyVaultSecretNameACRUsername string = 'acr-username'
+@sys.description('The name of the key vault secret for the ACR username')
+
+param keyVaultSecretNameACRPassword1 string = 'acr-password1'
+@sys.description('The name of the key vault secret for the first ACR password')
+
+param keyVaultSecretNameACRPassword2 string = 'acr-password2'
+@sys.description('The name of the key vault secret for the second ACR password')
+
+
 
 @minLength(3)
 @maxLength(24)
@@ -107,11 +112,26 @@ resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/database
 }
 
 
+module keyVault 'modules/key-vault.bicep' = {
+  name: 'kv-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    keyVaultName: keyVaultName
+    roleAssignments: keyVaultRoleAssignments
+    }
+}
+
+
 module containerRegistry 'modules/container-registry.bicep' = {
   name: 'acr-${userAlias}-${environmentType}'
   params: {
     name: containerRegistryName
     location:location
+    acrAdminUserEnabled: true
+    adminCredentialsKeyVaultResourceId: resourceId('Microsoft.KeyVault/vaults', keyVaultName)
+    adminCredentialsKeyVaultSecretUserName: keyVaultSecretNameACRUsername
+    adminCredentialsKeyVaultSecretUserPassword1: keyVaultSecretNameACRPassword1
+    adminCredentialsKeyVaultSecretUserPassword2: keyVaultSecretNameACRPassword2
   }
 }
 
@@ -132,6 +152,11 @@ module appService 'modules/app-service.bicep' = {
     appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
     appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
+    containerRegistryImageName: containerRegistryImageName
+    containerRegistryImageVersion: containerRegistryImageVersion
+    containerRegistryName: containerRegistryName
+    keyVaultName: keyVaultName
+    dummyOutput: containerRegistry.outputs.name
   }
   dependsOn: [
     containerRegistry
@@ -139,15 +164,6 @@ module appService 'modules/app-service.bicep' = {
   ]
 }
 
-
-module keyVault 'modules/key-vault.bicep' = {
-  name: 'kv-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    keyVaultName: keyVaultName
-    roleAssignments: keyVaultRoleAssignments
-    }
-}
 
 
 module logAnalytics 'modules/log-analytics.bicep' = {

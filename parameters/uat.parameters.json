@@ -52,7 +52,7 @@
             }
         ]
       }, 
-      "appServicePlanSkuName": {
+      "sku": {
           "value": "Standard"
       } 
     }

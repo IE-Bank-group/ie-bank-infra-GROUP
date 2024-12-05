@@ -26,6 +26,8 @@ param containerRegistryName string
 param postgresSQLDatabaseName string
 param postgresSQLServerName string 
 
+param appInsightsName string 
+
 
 
 
@@ -117,6 +119,15 @@ module appDatabase './database.bicep' = {
   }
 
 }  
+
+module appInsights './application-insights.bicep' = {
+  name: 'appInsights-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    appInsightsName: appInsightsName
+    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+  }
+}
 
 
 

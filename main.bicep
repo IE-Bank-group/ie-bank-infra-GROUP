@@ -63,25 +63,6 @@ param sku string
 // }
 
 
-// module appDatabase 'modules/database.bicep' = {
-//   name: 'appDatabase-${userAlias}-${environmentType}'
-//   params: {
-//     location: location
-//     postgresSQLDatabaseName: postgresSQLDatabaseName
-//     postgresSQLServerName: postgresSQLServerName
-//   }
-
-// }  
-
-
-// module containerRegistry 'modules/container-registry.bicep' = {
-//   name: 'acr-${userAlias}-${environmentType}'
-//   params: {
-//     name: containerRegistryName
-//     location:location
-//   }
-// }
-
 
 
 module appService 'modules/website.bicep' = {
@@ -106,6 +87,7 @@ module appService 'modules/website.bicep' = {
     userAlias: userAlias
     postgresSQLDatabaseName: postgresSQLDatabaseName
     postgresSQLServerName: postgresSQLServerName
+    appInsightsName: appInsightsName
   }
 }
 
@@ -129,14 +111,14 @@ module logAnalytics 'modules/log-analytics.bicep' = {
 }
 
 
-module appInsights 'modules/application-insights.bicep' = {
-  name: 'appInsights-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    appInsightsName: appInsightsName
-    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-  }
-}
+// module appInsights 'modules/application-insights.bicep' = {
+//   name: 'appInsights-${userAlias}-${environmentType}'
+//   params: {
+//     location: location
+//     appInsightsName: appInsightsName
+//     // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+//   }
+// }
 
 
 

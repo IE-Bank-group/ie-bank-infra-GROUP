@@ -59,6 +59,19 @@ param appServiceAPIAppName string = 'ie-bank-api'
 //   name: keyVaultName
 // }
 
+param keyVaultName string
+@sys.description('The name of the keyvault where secrets are stored')
+
+param keyVaultSecretNameACRUsername string = 'acr-username'
+@sys.description('The name of the key vault secret for the ACR username')
+
+param keyVaultSecretNameACRPassword1 string = 'acr-password1'
+@sys.description('The name of the key vault secret for the first ACR password')
+
+param keyVaultSecretNameACRPassword2 string = 'acr-password2'
+@sys.description('The name of the key vault secret for the second ACR password')
+
+
 
 module appDatabase 'modules/database.bicep' = {
   name: 'appDatabase-${userAlias}-${environmentType}'
@@ -71,15 +84,29 @@ module appDatabase 'modules/database.bicep' = {
 }  
 
 
+
+
+module keyVault 'modules/key-vault.bicep' = {
+  name: 'kv-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    keyVaultName: keyVaultName
+    roleAssignments: keyVaultRoleAssignments
+    }
+}
+
 module containerRegistry 'modules/container-registry.bicep' = {
   name: 'acr-${userAlias}-${environmentType}'
   params: {
     name: containerRegistryName
     location:location
+    acrAdminUserEnabled: true
+    adminCredentialsKeyVaultResourceId: resourceId('Microsoft.KeyVault/vaults', keyVaultName)
+    adminCredentialsKeyVaultSecretUserName: keyVaultSecretNameACRUsername
+    adminCredentialsKeyVaultSecretUserPassword1: keyVaultSecretNameACRPassword1
+    adminCredentialsKeyVaultSecretUserPassword2: keyVaultSecretNameACRPassword
   }
 }
-
-
 
 module appService 'modules/website.bicep' = {
   name: 'appService-${userAlias}-${environmentType}'
@@ -101,16 +128,6 @@ module appService 'modules/website.bicep' = {
     containerRegistry
     // postgresSQLDatabase
   ]
-}
-
-
-module keyVault 'modules/key-vault.bicep' = {
-  name: 'kv-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    keyVaultName: keyVaultName
-    roleAssignments: keyVaultRoleAssignments
-    }
 }
 
 

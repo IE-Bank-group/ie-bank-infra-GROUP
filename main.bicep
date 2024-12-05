@@ -7,6 +7,8 @@ param environmentType string = 'nonprod'
 param location string = resourceGroup().location
 param userAlias string = 'apayne'
 
+
+
 // param skuName string 
 param appInsightsName string 
 param logAnalyticsWorkspaceName string
@@ -71,14 +73,6 @@ module appDatabase 'modules/database.bicep' = {
 }  
 
 
-module containerRegistry 'modules/container-registry.bicep' = {
-  name: 'acr-${userAlias}-${environmentType}'
-  params: {
-    name: containerRegistryName
-    location:location
-  }
-}
-
 
 
 module appService 'modules/app-service.bicep' = {
@@ -111,6 +105,14 @@ module keyVault 'modules/key-vault.bicep' = {
     keyVaultName: keyVaultName
     roleAssignments: keyVaultRoleAssignments
     }
+}
+
+module containerRegistry 'modules/container-registry.bicep' = {
+  name: 'acr-${userAlias}-${environmentType}'
+  params: {
+    name: containerRegistryName
+    location:location
+  }
 }
 
 

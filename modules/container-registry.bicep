@@ -17,8 +17,10 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
   }
 }
 
+
+
 resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: '${name}-diag'
+  name: 'acr-diagnostics'
   scope: containerRegistry
   properties: {
     workspaceId: logAnalyticsWorkspaceId
@@ -30,11 +32,11 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
     ]
     logs: [
       {
-        categoryGroup: 'allLogs'
+        category: 'ContainerRegistryLoginEvents' // Tracks login events
         enabled: true
       }
       {
-        categoryGroup: 'audit'
+        category: 'ContainerRegistryRepositoryEvents' // Tracks repository events (push, pull, delete)
         enabled: true
       }
     ]
@@ -42,8 +44,7 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 }
 
 
-// //TRINIS CODE 
-// // if a keyvault resource id is provided
+
 // resource adminCredentialsKeyVault 'Microsoft.KeyVault/vaults@2021-10-01' existing = if (!empty(keyVaultResourceId)) {
 //   name: last(split((empty(keyVaultResourceId) ? keyVaultResourceId : 'dummyVault'), '/')) 
 //   //scope: resourceGroup(split((empty(keyVaultResourceId) ? keyVaultResourceId : '//'), '/')[2], split((empty(keyVaultResourceId) ? keyVaultResourceId : '//')))
@@ -75,6 +76,8 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 //     value: containerRegistry.listCredentials().passwords[1].value
 //   }
 // }
+
+
 
 
 

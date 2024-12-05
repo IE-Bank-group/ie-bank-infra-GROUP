@@ -105,7 +105,7 @@ module keyVault 'modules/key-vault.bicep' = {
     location: location
     keyVaultName: keyVaultName
     roleAssignments: keyVaultRoleAssignments
-    logAnalyticsWorkspaceId: logAnalyticsWorkspaceName
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     }
 }
 

@@ -29,6 +29,8 @@ param containerRegistryName string ='apayne-acr'
 // param dockerRegistryUsername string 
 // param dockerRegistryPassword string 
 
+param containerRegistryImageName string
+param containerRegistryImageVersion string = 'latest'
 
 param keyVaultName string = 'ie-bank-kv'
 
@@ -161,6 +163,7 @@ module appService 'modules/app-service.bicep' = {
   dependsOn: [
     containerRegistry
     postgresSQLDatabase
+    keyvault
   ]
 }
 

@@ -5,6 +5,8 @@ param location string = resourceGroup().location
 // param keyVaultSecretNameAdminPassword0 string
 // param keyVaultSecretNameAdminPassword1 string
 param logAnalyticsWorkspaceId string
+param ContainerRegistryDiagnostics string ='myDiagnosticSetting'
+
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   name: name
@@ -20,7 +22,7 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
 
 
 resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: 'acr-diagnostics'
+  name: ContainerRegistryDiagnostics
   scope: containerRegistry
   properties: {
     workspaceId: logAnalyticsWorkspaceId

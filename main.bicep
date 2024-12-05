@@ -121,6 +121,6 @@ output appServiceAppHostName string = appService.outputs.appServiceAppHostName
 // output appServiceAppHostName string = appServiceWebsiteBE.outputs.appServiceAppHostName
 // output appInsightsInstrumentationKey string = appInsights.outputs.appInsightsInstrumentationKey
 // output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString
-// output logAnalyticsWorkspaceId string = logAnalytics.outputs.workspaceId
-// output logAnalyticsWorkspaceName string = logAnalytics.outputs.logAnalyticsWorkspaceName
+output logAnalyticsWorkspaceId string = logAnalytics.outputs.logAnalyticsWorkspaceId
+output logAnalyticsWorkspaceName string = logAnalytics.outputs.logAnalyticsWorkspaceName
 

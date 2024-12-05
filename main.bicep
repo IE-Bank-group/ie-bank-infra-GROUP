@@ -63,24 +63,24 @@ param sku string
 // }
 
 
-module appDatabase 'modules/database.bicep' = {
-  name: 'appDatabase-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    postgresSQLDatabaseName: postgresSQLDatabaseName
-    postgresSQLServerName: postgresSQLServerName
-  }
+// module appDatabase 'modules/database.bicep' = {
+//   name: 'appDatabase-${userAlias}-${environmentType}'
+//   params: {
+//     location: location
+//     postgresSQLDatabaseName: postgresSQLDatabaseName
+//     postgresSQLServerName: postgresSQLServerName
+//   }
 
-}  
+// }  
 
 
-module containerRegistry 'modules/container-registry.bicep' = {
-  name: 'acr-${userAlias}-${environmentType}'
-  params: {
-    name: containerRegistryName
-    location:location
-  }
-}
+// module containerRegistry 'modules/container-registry.bicep' = {
+//   name: 'acr-${userAlias}-${environmentType}'
+//   params: {
+//     name: containerRegistryName
+//     location:location
+//   }
+// }
 
 
 
@@ -102,11 +102,11 @@ module appService 'modules/website.bicep' = {
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
     appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
     sku: sku
+    containerRegistryName: containerRegistryName
+    userAlias: userAlias
+    postgresSQLDatabaseName: postgresSQLDatabaseName
+    postgresSQLServerName: postgresSQLServerName
   }
-  dependsOn: [
-    containerRegistry
-    // postgresSQLDatabase
-  ]
 }
 
 

@@ -1,6 +1,3 @@
-param appServicePlanName string 
-param appServicePlanSkuName string = (environmentType == 'prod') ? 'B1' : 'B1'
-param sku string 
 param location string = resourceGroup().location
 param webLocation string
 @allowed([
@@ -8,6 +5,11 @@ param webLocation string
   'prod' 
 ])
 param environmentType string 
+param userAlias string 
+
+param sku string 
+param appServicePlanName string 
+param appServicePlanSkuName string = (environmentType == 'prod') ? 'B1' : 'B1'
 param appServiceAppName string
 param appServiceAPIAppName string 
 
@@ -18,6 +20,13 @@ param appServiceAPIEnvVarDBHOST string
 param appServiceAPIEnvVarDBNAME string 
 param appServiceAPIEnvVarDBPASS string
 param appServiceAPIEnvVarENV string
+
+param containerRegistryName string
+
+param postgresSQLDatabaseName string
+param postgresSQLServerName string 
+
+
 
 
 module appServicePlan './app-service-plan.bicep' = {
@@ -87,6 +96,28 @@ module appServiceAPIApp './be-app-service.bicep'= {
     ]
   }
 }
+
+
+
+module containerRegistry './container-registry.bicep' = {
+  name: 'acr-${userAlias}-${environmentType}'
+  params: {
+    name: containerRegistryName
+    location:location
+  }
+}
+
+
+module appDatabase './database.bicep' = {
+  name: 'appDatabase-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    postgresSQLDatabaseName: postgresSQLDatabaseName
+    postgresSQLServerName: postgresSQLServerName
+  }
+
+}  
+
 
 
 // need static web app url, endpoints, resource name 

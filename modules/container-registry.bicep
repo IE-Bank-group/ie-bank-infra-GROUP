@@ -2,7 +2,7 @@ param name string
 param location string = resourceGroup().location
 param sku string = 'Standard'
 param keyVaultResourceId string
-param keyVaultSecreNameAdminUsername string
+param keyVaultSecretNameAdminUsername string
 param keyVaultSecretNameAdminPassword0 string
 param keyVaultSecretNameAdminPassword1 string
 param workspaceResourceId string

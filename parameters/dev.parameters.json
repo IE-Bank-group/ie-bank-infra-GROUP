@@ -53,7 +53,10 @@
                 "principalType": "ServicePrincipal"
                 }
             ]
-        }
+        }, 
+        "appServicePlanSkuName": {
+            "value": "Standard"
+        } 
     }
 }
 

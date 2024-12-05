@@ -12,6 +12,7 @@ param appInsightsName string
 param logAnalyticsWorkspaceName string
 // param logAnalyticsWorkspaceId string
 
+param appServicePlanSkuName string 
 param appServiceAPIEnvVarENV string
 param appServiceAPIEnvVarDBHOST string
 param appServiceAPIEnvVarDBNAME string
@@ -54,7 +55,6 @@ param appServiceAppName string = 'ie-bank'
 @maxLength(24)
 param appServiceAPIAppName string = 'ie-bank-api'
 
-param appServicePlanSkuName string
 
 
 // resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
@@ -90,6 +90,7 @@ module appService 'modules/website.bicep' = {
     appServiceAppName: appServiceAppName
     appServiceAPIAppName: appServiceAPIAppName
     appServicePlanName: appServicePlanName
+    appServicePlanSkuName: appServicePlanSkuName
     environmentType: environmentType
     appServiceAPIDBHostDBUSER: appServiceAPIDBHostDBUSER
     appServiceAPIDBHostFLASK_APP: appServiceAPIDBHostFLASK_APP
@@ -98,7 +99,6 @@ module appService 'modules/website.bicep' = {
     appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
     appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
-    appServicePlanSkuName: appServicePlanSkuName
   }
   dependsOn: [
     containerRegistry

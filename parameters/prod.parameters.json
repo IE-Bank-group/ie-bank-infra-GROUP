@@ -64,7 +64,10 @@
         },
         "keyVaultSecretNameAdminPassword1": {
             "value": "acr-password1"
-        }
+        }, 
+        "appServicePlanSkuName": {
+            "value": "Standard"
+        } 
         
     }
 }

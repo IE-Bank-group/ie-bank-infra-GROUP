@@ -135,9 +135,14 @@ module containerRegistry 'modules/container-registry.bicep' = {
     adminCredentialsKeyVaultSecretUserPassword1: keyVaultSecretNameACRPassword1
     adminCredentialsKeyVaultSecretUserPassword2: keyVaultSecretNameACRPassword2
   }
+  dependsOn: [
+    keyVault 
+  ] 
 }
 
-
+resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
+  name: keyVaultName
+  }
 
 module appService 'modules/app-service.bicep' = {
   name: 'appService-${userAlias}-${environmentType}'
@@ -163,7 +168,7 @@ module appService 'modules/app-service.bicep' = {
   dependsOn: [
     containerRegistry
     postgresSQLDatabase
-    keyvault
+    keyVault
   ]
 }
 

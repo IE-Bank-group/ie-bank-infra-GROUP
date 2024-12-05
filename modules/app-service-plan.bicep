@@ -1,11 +1,11 @@
 param appServicePlanName string 
-param appServicePlanSkuName string = (environmentType == 'prod') ? 'B1' : 'B1'
-param location string = resourceGroup().location
 @allowed([
-  'nonprod'
-  'prod' 
+  'B1'
+  'F1'
 ])
-param environmentType string 
+param appServicePlanSkuName string 
+param location string = resourceGroup().location
+
 
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' = {

@@ -110,6 +110,7 @@ module containerRegistry './container-registry.bicep' = {
   params: {
     name: containerRegistryName
     location:location
+    // logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }
 }
 

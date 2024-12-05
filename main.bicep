@@ -56,6 +56,7 @@ param appServiceAppName string = 'ie-bank'
 @maxLength(24)
 param appServiceAPIAppName string = 'ie-bank-api'
 param sku string 
+var logAnalyticsWorkspaceId = logAnalytics.outputs.logAnalyticsWorkspaceId
 
 
 
@@ -92,7 +93,7 @@ module appService 'modules/website.bicep' = {
     postgresSQLServerName: postgresSQLServerName
     appInsightsName: appInsightsName
     keyVaultResourceId: keyVault.outputs.keyVaultResourceId
-    logAnalyticsWorkspaceId: logAnalytics.outputs.workspaceId
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }
 }
 

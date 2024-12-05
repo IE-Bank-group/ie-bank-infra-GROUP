@@ -54,7 +54,7 @@ param appServiceAppName string = 'ie-bank'
 @minLength(3)
 @maxLength(24)
 param appServiceAPIAppName string = 'ie-bank-api'
-
+param sku string 
 
 
 // resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
@@ -99,6 +99,7 @@ module appService 'modules/website.bicep' = {
     appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
     appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
+    sku: sku
   }
   dependsOn: [
     containerRegistry

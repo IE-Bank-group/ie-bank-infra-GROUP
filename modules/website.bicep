@@ -35,7 +35,7 @@ module appServiceApp './fe-app-service.bicep' = {
   params: {
     appServiceAppName: appServiceAppName
     location: location
-    appServicePlanId: appServicePlan.outputs.planId
+    // appServicePlanId: appServicePlan.outputs.planId
     sku: sku
   }
 

@@ -38,6 +38,38 @@ param logAnalyticsWorkspaceId string
 
 
 
+
+module containerRegistry './container-registry.bicep' = {
+  name: 'acr-${userAlias}-${environmentType}'
+  params: {
+    name: containerRegistryName
+    location:location
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    keyVaultResourceId: keyVaultResourceId
+    keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
+    keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
+    keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
+  }
+}
+
+
+module appInsights './application-insights.bicep' = {
+  name: 'appInsights-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    appInsightsName: appInsightsName
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+  }
+}
+
+
+resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
+  name: last(split(keyVaultResourceId, '/'))
+}
+
+
+
+
 module appServicePlan './app-service-plan.bicep' = {
   name: appServicePlanName
   params: {
@@ -60,6 +92,7 @@ module appServiceApp './fe-app-service.bicep' = {
   }
 
 }
+
 
 
 //BACKEND
@@ -104,22 +137,15 @@ module appServiceAPIApp './be-app-service.bicep'= {
       }
     ]
   }
+  dependsOn: [
+    appInsights
+    appServicePlan
+    containerRegistry
+    keyVaultReference
+  ]
 }
 
 
-
-module containerRegistry './container-registry.bicep' = {
-  name: 'acr-${userAlias}-${environmentType}'
-  params: {
-    name: containerRegistryName
-    location:location
-    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-    keyVaultResourceId: keyVaultResourceId
-    keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
-    keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
-    keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
-  }
-}
 
 
 module appDatabase './database.bicep' = {
@@ -131,21 +157,6 @@ module appDatabase './database.bicep' = {
   }
 
 }  
-
-module appInsights './application-insights.bicep' = {
-  name: 'appInsights-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    appInsightsName: appInsightsName
-    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-  }
-}
-
-
-// resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-//   name: last(split(keyVaultResourceId, '/'))
-// }
-
 
 // need static web app url, endpoints, resource name 
 output appServiceAppHostName string = appServiceApp.outputs.appServiceAppHostName

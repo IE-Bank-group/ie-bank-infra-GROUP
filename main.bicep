@@ -59,9 +59,17 @@ param appServiceAppName string = 'ie-bank'
 @maxLength(24)
 param appServiceAPIAppName string = 'ie-bank-api'
 param sku string 
+// param postgresSQLAdminServerPrincipalName string
+// param postgresSQLAdminServicePrincipalObjectId string 
+
 var logAnalyticsWorkspaceId = logAnalytics.outputs.logAnalyticsWorkspaceId
 var keyVaultResourceId = keyVault.outputs.keyVaultResourceId
 // param keyVaultResourceId string = resourceId('Microsoft.KeyVault/vaults', keyVaultName)
+
+
+
+
+
 
 
 module logAnalytics 'modules/log-analytics.bicep' = {
@@ -113,6 +121,8 @@ module appService 'modules/website.bicep' = {
     keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
     keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
     keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
+    // postgresSQLAdminServerPrincipalName: postgresSQLAdminServerPrincipalName
+    // postgresSQLAdminServicePrincipalObjectId: postgresSQLAdminServicePrincipalObjectId
   }
 }
 

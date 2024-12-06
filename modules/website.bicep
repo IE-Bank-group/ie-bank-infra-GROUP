@@ -28,6 +28,8 @@ param keyVaultSecretNameAdminPassword1 string
 
 param postgresSQLDatabaseName string
 param postgresSQLServerName string 
+// param postgresSQLAdminServerPrincipalName string
+// param postgresSQLAdminServicePrincipalObjectId string 
 
 param appInsightsName string 
 
@@ -154,6 +156,8 @@ module appDatabase './database.bicep' = {
     location: location
     postgresSQLDatabaseName: postgresSQLDatabaseName
     postgresSQLServerName: postgresSQLServerName
+    postgresSQLAdminServerPrincipalName: appServiceAPIAppName
+    postgresSQLAdminServicePrincipalObjectId: appServiceAPIApp.outputs.systemAssignedIdentityPrincipalId
   }
 
 }  

@@ -1,7 +1,8 @@
 param location string = resourceGroup().location
 param postgresSQLServerName string = 'ie-bank-db-server'
-
-
+// param logAnalyticsWorkspaceId string 
+param postgresSQLAdminServerPrincipalName string
+param postgresSQLAdminServicePrincipalObjectId string  
 
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
@@ -16,7 +17,7 @@ resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01
     administratorLoginPassword: 'IE.Bank.DB.Admin.Pa$$'    //appServiceAPIEnvVarDBPASS  
     version: '15'
     createMode: 'Default'
-    // authConfig: {activeDirectoryAuth: 'Enabled', passwordAuth: 'Enabled', tenantId: subscription().tenantId }
+    authConfig: {activeDirectoryAuth: 'Enabled', passwordAuth: 'Enabled', tenantId: subscription().tenantId }
     storage: {
       storageSizeGB: 32
     }
@@ -32,6 +33,7 @@ resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01
 
 
 
+
   resource serverFirewallRules 'firewallRules@2022-12-01' = {
     name: 'AllowAllAzureServices'
     properties: {
@@ -39,7 +41,23 @@ resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01
       endIpAddress: '0.0.0.0'
     }
   }
+
+
+  resource postgresSQLAdministrators 'administrators@2022-12-01' = {
+    name: postgresSQLAdminServicePrincipalObjectId
+    properties: {
+      principalName: postgresSQLAdminServerPrincipalName
+      principalType: 'ServicePrincipal'
+      tenantId: subscription().tenantId
+    }
+    dependsOn: [
+      serverFirewallRules
+    ]
+  }  
 }
+
+
+
 
 
 

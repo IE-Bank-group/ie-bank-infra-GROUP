@@ -24,6 +24,9 @@ param appServiceAPIDBHostFLASK_APP string
 param appServiceAPIDBHostFLASK_DEBUG string
 
 param containerRegistryName string ='apayne-acr'
+param keyVaultSecretNameAdminUsername string
+param keyVaultSecretNameAdminPassword0 string
+param keyVaultSecretNameAdminPassword1 string
 
 // param appSettings array 
 // param dockerRegistryImageName string
@@ -57,7 +60,7 @@ param appServiceAppName string = 'ie-bank'
 param appServiceAPIAppName string = 'ie-bank-api'
 param sku string 
 var logAnalyticsWorkspaceId = logAnalytics.outputs.logAnalyticsWorkspaceId
-// var keyVaultResourceId = keyVault.outputs.keyVaultResourceId
+var keyVaultResourceId = keyVault.outputs.keyVaultResourceId
 
 
 
@@ -93,8 +96,11 @@ module appService 'modules/website.bicep' = {
     postgresSQLDatabaseName: postgresSQLDatabaseName
     postgresSQLServerName: postgresSQLServerName
     appInsightsName: appInsightsName
-    // keyVaultResourceId: keyVault.outputs.keyVaultResourceId
+    keyVaultResourceId: keyVaultResourceId
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
+    keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
+    keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
   }
 }
 

@@ -60,6 +60,15 @@
       },
       "appServicePlanSkuName": {
         "value": "B1"
-      } 
+      }, 
+      "keyVaultSecretNameAdminUsername": {
+          "value": "acr-username"
+      },
+      "keyVaultSecretNameAdminPassword0": {
+          "value": "acr-password0"
+      },
+      "keyVaultSecretNameAdminPassword1": {
+          "value": "acr-password1"
+      }   
     }
 }

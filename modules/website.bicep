@@ -22,13 +22,16 @@ param appServiceAPIEnvVarDBPASS string
 param appServiceAPIEnvVarENV string
 
 param containerRegistryName string
+param keyVaultSecretNameAdminUsername string
+param keyVaultSecretNameAdminPassword0 string
+param keyVaultSecretNameAdminPassword1 string
 
 param postgresSQLDatabaseName string
 param postgresSQLServerName string 
 
 param appInsightsName string 
 
-// param keyVaultResourceId string 
+param keyVaultResourceId string 
 
 param logAnalyticsWorkspaceId string 
 
@@ -111,6 +114,10 @@ module containerRegistry './container-registry.bicep' = {
     name: containerRegistryName
     location:location
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    keyVaultResourceId: keyVaultResourceId
+    keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
+    keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
+    keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
   }
 }
 

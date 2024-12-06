@@ -3,6 +3,8 @@ param postgresSQLServerName string = 'ie-bank-db-server'
 param location string = resourceGroup().location
 param postgresSQLAdminServerPrincipalName string
 param postgresSQLAdminServicePrincipalObjectId string  
+param logAnalyticsWorkspaceId string 
+
 
 
 
@@ -14,6 +16,7 @@ module postgresSQLServer 'postgres-server.bicep' = {
     postgresSQLServerName: postgresSQLServerName
     postgresSQLAdminServerPrincipalName: postgresSQLAdminServerPrincipalName
     postgresSQLAdminServicePrincipalObjectId: postgresSQLAdminServicePrincipalObjectId
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
   }
 }
 

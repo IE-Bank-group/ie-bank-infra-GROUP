@@ -1,6 +1,6 @@
 param location string = resourceGroup().location
 param postgresSQLServerName string = 'ie-bank-db-server'
-// param logAnalyticsWorkspaceId string 
+param logAnalyticsWorkspaceId string 
 param postgresSQLAdminServerPrincipalName string
 param postgresSQLAdminServicePrincipalObjectId string  
 
@@ -58,10 +58,49 @@ resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01
 
 
 
+resource postgresSQLDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: 'PostGresSQLServerDiagnostics'
+  scope: postgresSQLServer
+  properties: {
+    workspaceId: logAnalyticsWorkspaceId
+    logs: [
+      {
+        category: 'PostgreSQLLogs'
+        enabled: true
+      }
+      {
+        category: 'PostgreSQLFlexSessions'
+        enabled: true
+      }
+      {
+        category: 'PostgreSQLFlexQueryStoreRuntime'
+        enabled: true
+      }
+      {
+        category: 'PostgreSQLFlexTableStats'
+        enabled: true
+      }
+      {
+        category: 'PostgreSQLFlexQueryStoreWaitStats'
+        enabled: true
+      }
+      {
+        category: 'PostgreSQLFlexDatabaseXacts'
+        enabled: true
+      }
+    ]
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+      }
+    ]
+  }
+}
 
 
 
-//NEEDS ADMINS, DIAGNOSTICS
+
 
 
 output postgresSQLServerName string = postgresSQLServer.name

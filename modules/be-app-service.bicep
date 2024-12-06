@@ -4,7 +4,7 @@ param appServicePlanId string
 param appSettings array = []
 
 
-//NEEDS DOCKER CREDENTIALS  
+//NEEDS DOCKER CREDENTIALS  & APP INSGIHTS 
 
 
 resource appServiceAPIApp 'Microsoft.Web/sites@2022-03-01' = {

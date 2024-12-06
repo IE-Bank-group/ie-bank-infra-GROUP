@@ -61,6 +61,7 @@ module appInsights './application-insights.bicep' = {
     location: location
     appInsightsName: appInsightsName
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    keyVaultResourceId: keyVaultResourceId
   }
 }
 

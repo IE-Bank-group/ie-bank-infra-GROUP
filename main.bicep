@@ -61,7 +61,7 @@ param appServiceAPIAppName string = 'ie-bank-api'
 param sku string 
 var logAnalyticsWorkspaceId = logAnalytics.outputs.logAnalyticsWorkspaceId
 var keyVaultResourceId = keyVault.outputs.keyVaultResourceId
-
+// param keyVaultResourceId string = resourceId('Microsoft.KeyVault/vaults', keyVaultName)
 
 
 module logAnalytics 'modules/log-analytics.bicep' = {
@@ -71,6 +71,18 @@ module logAnalytics 'modules/log-analytics.bicep' = {
     location: location
   }
 }
+
+
+module keyVault 'modules/key-vault.bicep' = {
+  name: 'kv-${userAlias}-${environmentType}'
+  params: {
+    location: location
+    keyVaultName: keyVaultName
+    roleAssignments: keyVaultRoleAssignments
+    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    }
+}
+
 
 
 module appService 'modules/website.bicep' = {
@@ -105,15 +117,6 @@ module appService 'modules/website.bicep' = {
 }
 
 
-module keyVault 'modules/key-vault.bicep' = {
-  name: 'kv-${userAlias}-${environmentType}'
-  params: {
-    location: location
-    keyVaultName: keyVaultName
-    roleAssignments: keyVaultRoleAssignments
-    logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-    }
-}
 
 
 

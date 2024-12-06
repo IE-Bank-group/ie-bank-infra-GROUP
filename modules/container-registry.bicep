@@ -21,35 +21,10 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' =
 
 
 
-resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: ContainerRegistryDiagnostics
-  scope: containerRegistry
-  properties: {
-    workspaceId: logAnalyticsWorkspaceId
-    metrics: [
-      {
-        category: 'AllMetrics'
-        enabled: true
-      }
-    ]
-    logs: [
-      {
-        category: 'ContainerRegistryLoginEvents' 
-        enabled: true
-      }
-      {
-        category: 'ContainerRegistryRepositoryEvents' 
-        enabled: true
-      }
-    ]
-  }
-}
-
 
 
 resource adminCredentialsKeyVault 'Microsoft.KeyVault/vaults@2021-10-01' existing = if (!empty(keyVaultResourceId)) {
-  name: last(split((empty(keyVaultResourceId) ? keyVaultResourceId : 'dummyVault'), '/')) 
-  //scope: resourceGroup(split((empty(keyVaultResourceId) ? keyVaultResourceId : '//'), '/')[2], split((empty(keyVaultResourceId) ? keyVaultResourceId : '//')))
+  name: last(split(keyVaultResourceId, '/')) 
 }
 
 // create a secret to store the container registry admin username
@@ -80,7 +55,29 @@ resource secretAdminUserPassword1 'Microsoft.KeyVault/vaults/secrets@2023-02-01'
 }
 
 
-
+resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+  name: ContainerRegistryDiagnostics
+  scope: containerRegistry
+  properties: {
+    workspaceId: logAnalyticsWorkspaceId
+    metrics: [
+      {
+        category: 'AllMetrics'
+        enabled: true
+      }
+    ]
+    logs: [
+      {
+        category: 'ContainerRegistryLoginEvents' 
+        enabled: true
+      }
+      {
+        category: 'ContainerRegistryRepositoryEvents' 
+        enabled: true
+      }
+    ]
+  }
+}
 
 
 

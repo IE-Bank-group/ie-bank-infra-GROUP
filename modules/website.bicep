@@ -37,6 +37,9 @@ param keyVaultResourceId string
 
 param logAnalyticsWorkspaceId string 
 
+param dockerRegistryImageName string
+param dockerRegistryImageTag string = 'latest'
+
 
 
 
@@ -104,7 +107,14 @@ module appServiceAPIApp './be-app-service.bicep'= {
   params: {
     appServiceAPIAppName: appServiceAPIAppName
     location: location
+    containerRegistryName: containerRegistryName
     appServicePlanId: appServicePlan.outputs.planId
+    appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
+    appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey
+    dockerRegistryServerPassword: keyVaultReference.getSecret(keyVaultSecretNameAdminPassword0)
+    dockerRegistryServerUsername: keyVaultReference.getSecret(keyVaultSecretNameAdminUsername)
+    dockerRegistryImageName: dockerRegistryImageName
+    dockerRegistryImageTag: dockerRegistryImageTag
     appSettings: [
       {
         name: 'ENV'

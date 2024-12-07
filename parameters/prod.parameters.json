@@ -5,12 +5,6 @@
         "environmentType": {
             "value": "prod"
         },
-        "postgresAdminPassword": {
-            "value": "prod-password-from-keyvault"
-        },
-        "appServiceAPIEnvVarDBPASS": {
-            "value": "prod-db-pass-from-keyvault"
-        },
         "postgreSQLServerName": {
             "value": "apayne-dbsrv-prod"
         },
@@ -73,7 +67,7 @@
         },
         "appServicePlanSkuName": {
           "value": "B1"
-        }  
+        } 
         
     }
 }

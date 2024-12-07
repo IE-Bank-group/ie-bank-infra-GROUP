@@ -29,8 +29,8 @@ param keyVaultSecretNameAdminPassword0 string
 param keyVaultSecretNameAdminPassword1 string
 
 // param appSettings array 
-// param dockerRegistryImageName string
-// param dockerRegistryImageTag string = 'latest'
+param dockerRegistryImageName string
+param dockerRegistryImageTag string = 'latest'
 // param dockerRegistryUsername string 
 // param dockerRegistryPassword string 
 
@@ -121,6 +121,8 @@ module appService 'modules/website.bicep' = {
     keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
     keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
     keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
+    dockerRegistryImageName: dockerRegistryImageName
+    dockerRegistryImageTag: dockerRegistryImageTag
     // postgresSQLAdminServerPrincipalName: postgresSQLAdminServerPrincipalName
     // postgresSQLAdminServicePrincipalObjectId: postgresSQLAdminServicePrincipalObjectId
   }

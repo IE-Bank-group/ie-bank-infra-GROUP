@@ -44,5 +44,5 @@ resource connectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' =
 
 
 
-// output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
-// output appInsightsConnectionString string = appInsights.properties.ConnectionString
+output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
+output appInsightsConnectionString string = appInsights.properties.ConnectionString

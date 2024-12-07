@@ -69,6 +69,12 @@
       },
       "keyVaultSecretNameAdminPassword1": {
           "value": "acr-password1"
-      }   
+      },
+      "dockerRegistryImageName": {
+        "value": "apayne-be-dev"
+      },
+      "dockerRegistryImageTag": {
+        "value": "latest"
+      }     
     }
 }

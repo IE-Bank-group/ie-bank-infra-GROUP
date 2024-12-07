@@ -1,11 +1,32 @@
 param appServiceAPIAppName string 
 param location string = resourceGroup().location
+param containerRegistryName string
 param appServicePlanId string
 param appSettings array = []
+param appInsightsConnectionString string
+param appInsightsInstrumentationKey string 
+@secure()
+param dockerRegistryServerUsername string
+@secure()
+param dockerRegistryServerPassword string
+param dockerRegistryImageTag string
+param dockerRegistryImageName string 
+
+//NEEDS DOCKER CREDENTIALS 
+
+var appInsightsSettings = [
+  {name: 'APPINSIGHTS-INSTRUMENTATIONKEY', value: appInsightsInstrumentationKey}
+  {name: 'APPINSIGHTS-CONNECTIONSTRING', value: appInsightsConnectionString}
+]
+
+var dockerAppSettings = [
+  {name:'DOCKER_REGISTRY_SERVER_URL', value: 'https://${containerRegistryName}.azurecr.io'}
+  { name: 'DOCKER_REGISTRY_SERVER_USERNAME', value: dockerRegistryServerUsername }
+  { name: 'DOCKER_REGISTRY_SERVER_PASSWORD', value: dockerRegistryServerPassword }
+]
 
 
-//NEEDS DOCKER CREDENTIALS  & APP INSGIHTS 
-
+var mergeAppSettings = concat (appSettings, appInsightsSettings, dockerAppSettings)
 
 resource appServiceAPIApp 'Microsoft.Web/sites@2022-03-01' = {
   name: appServiceAPIAppName
@@ -18,9 +39,9 @@ resource appServiceAPIApp 'Microsoft.Web/sites@2022-03-01' = {
     httpsOnly: true
     siteConfig: {
       ftpsState: 'FtpsOnly'
-      linuxFxVersion: 'PYTHON|3.11'
+      linuxFxVersion: 'DOCKER|${containerRegistryName}.azurecr.io/${dockerRegistryImageName}:${dockerRegistryImageTag}'
       alwaysOn: false
-      appSettings: appSettings
+      appSettings: mergeAppSettings
       appCommandLine: ''
     }
   }

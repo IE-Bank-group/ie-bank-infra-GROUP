@@ -54,6 +54,15 @@ resource secretAdminUserPassword1 'Microsoft.KeyVault/vaults/secrets@2023-02-01'
   }
 }
 
+resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
+  name: 'StaticWebAppDeploymentToken'
+  parent: adminCredentialsKeyVault
+  properties: {
+    value: ''
+  }
+}
+
+
 
 resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: ContainerRegistryDiagnostics

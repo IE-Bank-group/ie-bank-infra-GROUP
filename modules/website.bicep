@@ -115,7 +115,7 @@ module appServiceAPIApp './be-app-service.bicep'= {
     environmentType: environmentType
     containerRegistryName: containerRegistryName
     appServicePlanId: appServicePlan.outputs.planId
-    appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
+    // appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
     // appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey
     dockerRegistryServerPassword: keyVaultReference.getSecret(keyVaultSecretNameAdminPassword0)
     dockerRegistryServerUsername: keyVaultReference.getSecret(keyVaultSecretNameAdminUsername)

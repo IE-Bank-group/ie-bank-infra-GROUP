@@ -3,7 +3,7 @@ param location string = resourceGroup().location
 param containerRegistryName string
 param appServicePlanId string
 param appSettings array = []
-param appInsightsConnectionString string
+// param appInsightsConnectionString string
 // param appInsightsInstrumentationKey string 
 @secure()
 param dockerRegistryServerUsername string
@@ -19,10 +19,10 @@ param dockerRegistryImageName string
 param environmentType string 
 
 
-var appInsightsSettings = [
-  // {name: 'APPINSIGHTS-INSTRUMENTATIONKEY', value: appInsightsInstrumentationKey}
-  {name: 'APPINSIGHTS-CONNECTIONSTRING', value: appInsightsConnectionString}
-]
+// var appInsightsSettings = [
+//   // {name: 'APPINSIGHTS-INSTRUMENTATIONKEY', value: appInsightsInstrumentationKey}
+//   {name: 'APPINSIGHTS-CONNECTIONSTRING', value: appInsightsConnectionString}
+// ]
 
 var dockerAppSettings = [
   {name:'DOCKER_REGISTRY_SERVER_URL', value: 'https://${containerRegistryName}.azurecr.io'}
@@ -31,7 +31,7 @@ var dockerAppSettings = [
 ]
 
 
-var mergeAppSettings = concat (appSettings, appInsightsSettings, dockerAppSettings)
+var mergeAppSettings = concat (appSettings,  dockerAppSettings)
 
 resource appServiceAPIApp 'Microsoft.Web/sites@2022-03-01' = {
   name: appServiceAPIAppName

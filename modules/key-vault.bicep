@@ -67,7 +67,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   properties: {
     enabledForDeployment: true
     enableRbacAuthorization: true
-    enableSoftDelete: true
+    enableSoftDelete: false
     enabledForTemplateDeployment: true
         sku: {
       family: 'A'

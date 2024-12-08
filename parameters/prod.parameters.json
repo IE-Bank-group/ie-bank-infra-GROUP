@@ -69,7 +69,7 @@
           "value": "B1"
         },
         "logicAppName": {
-          "value": "apayne-logicapp-dev"
+          "value": "apayne-logicapp-prod"
         }   
     }
 }

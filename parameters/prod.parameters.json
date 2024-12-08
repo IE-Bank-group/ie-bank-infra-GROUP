@@ -27,7 +27,7 @@
             "value": "West Europe"
         },
         "containerRegistryName": {
-            "value": "apayneacruat"
+            "value": "apayneacrprod"
         },
         "dockerRegistryImageName": {
             "value": "apayne-be-prod"

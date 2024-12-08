@@ -67,7 +67,8 @@ var logAnalyticsWorkspaceId = logAnalytics.outputs.logAnalyticsWorkspaceId
 var keyVaultResourceId = keyVault.outputs.keyVaultResourceId
 // param keyVaultResourceId string = resourceId('Microsoft.KeyVault/vaults', keyVaultName)
 
-
+param logicAppName string 
+param slackUrl string 
 
  
 
@@ -124,6 +125,7 @@ module appService 'modules/website.bicep' = {
     keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
     dockerRegistryImageName: dockerRegistryImageName
     dockerRegistryImageTag: dockerRegistryImageTag
+    slackUrl: slackUrl
     // postgresSQLAdminServerPrincipalName: postgresSQLAdminServerPrincipalName
     // postgresSQLAdminServicePrincipalObjectId: postgresSQLAdminServicePrincipalObjectId
   }
@@ -131,7 +133,13 @@ module appService 'modules/website.bicep' = {
 
 
 
-
+module logicAppModule 'modules/logic-app.bicep' = {
+  name: 'logicAppDeployment'
+  params: {
+    logicAppName: logicAppName
+    slackWebhookUrl: slackUrl
+  }
+}
 
 
 

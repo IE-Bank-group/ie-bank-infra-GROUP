@@ -41,7 +41,7 @@ param logAnalyticsWorkspaceId string
 param dockerRegistryImageName string
 param dockerRegistryImageTag string = 'latest'
 
-
+param slackUrl string 
 
 
 
@@ -67,6 +67,7 @@ module appInsights './application-insights.bicep' = {
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     // keyVaultResourceId: keyVaultResourceId
     environmentType: environmentType
+    slackUrl: slackUrl
   }
 }
 

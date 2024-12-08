@@ -67,7 +67,13 @@
         },
         "appServicePlanSkuName": {
           "value": "B1"
-        } 
+        },
+        "logicAppName": {
+          "value": "apayne-logicapp-dev"
+        },
+        "slackUrl": {
+          "value": "https://hooks.slack.com/services/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 "
+        }     
         
     }
 }

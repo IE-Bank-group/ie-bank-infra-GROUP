@@ -65,7 +65,7 @@ module appInsights './application-insights.bicep' = {
     location: location
     appInsightsName: appInsightsName
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-    // keyVaultResourceId: keyVaultResourceId
+    keyVaultResourceId: keyVaultResourceId
     environmentType: environmentType
     slackUrl: slackUrl
   }

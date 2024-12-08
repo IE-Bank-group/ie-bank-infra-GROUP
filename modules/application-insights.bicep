@@ -1,7 +1,7 @@
 param appInsightsName string
 param location string
 param logAnalyticsWorkspaceId string
-// param keyVaultResourceId string 
+param keyVaultResourceId string 
 param environmentType string
 param slackUrl string  
 
@@ -118,27 +118,25 @@ resource loginSLOAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
 
 
 
-// resource adminCredentialsKeyVault 'Microsoft.KeyVault/vaults@2021-10-01' existing = if (!empty(keyVaultResourceId)) {
-//   name: last(split(keyVaultResourceId, '/')) 
-// }
+resource adminCredentialsKeyVault 'Microsoft.KeyVault/vaults@2021-10-01' existing = if (!empty(keyVaultResourceId)) {
+  name: last(split(keyVaultResourceId, '/')) 
+}
 
-// create a secret to store the container registry admin username
-// resource instrumentationKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
-//   name: 'instrumentationKey' 
-//   parent: adminCredentialsKeyVault
-//   properties: {
-//     value: appInsights.properties.InstrumentationKey
-//   }
-// }
+resource instrumentationKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
+  name: 'instrumentationKey' 
+  parent: adminCredentialsKeyVault
+  properties: {
+    value: appInsights.properties.InstrumentationKey
+  }
+}
 
-// create a secret to store the container registry admin password 0
-// resource connectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' =  {
-//   name: 'connectionString'
-//   parent: adminCredentialsKeyVault
-//   properties: {
-//     value: appInsights.properties.ConnectionString
-//   }
-// }
+resource connectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' =  {
+  name: 'connectionString'
+  parent: adminCredentialsKeyVault
+  properties: {
+    value: appInsights.properties.ConnectionString
+  }
+}
 
 
 module workbook 'workbook.bicep' = {

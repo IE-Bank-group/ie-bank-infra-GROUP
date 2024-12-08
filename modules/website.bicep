@@ -84,7 +84,7 @@ module appServicePlan './app-service-plan.bicep' = {
     appServicePlanName: appServicePlanName
     location: location
     appServicePlanSkuName: appServicePlanSkuName
-    logAnalyticsWorkSpaceId: logAnalyticsWorkspaceId
+    // logAnalyticsWorkSpaceId: logAnalyticsWorkspaceId
   }
 }
 

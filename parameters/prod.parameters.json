@@ -5,10 +5,10 @@
         "environmentType": {
             "value": "prod"
         },
-        "postgreSQLServerName": {
+        "postgresSQLServerName": {
             "value": "apayne-dbsrv-prod"
         },
-        "postgreSQLDatabaseName": {
+        "postgresSQLDatabaseName": {
             "value": "apayne-db-prod"
         },
         "appServicePlanName": {

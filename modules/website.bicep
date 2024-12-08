@@ -60,12 +60,12 @@ module containerRegistry './container-registry.bicep' = {
 
 
 module appInsights './application-insights.bicep' = {
-  name: 'appInsights-${userAlias}-${environmentType}'
+  name: 'ai-${userAlias}-${environmentType}'
   params: {
     location: location
     appInsightsName: appInsightsName
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
-    keyVaultResourceId: keyVaultResourceId
+    // keyVaultResourceId: keyVaultResourceId
     environmentType: environmentType
   }
 }
@@ -91,7 +91,7 @@ module appServicePlan './app-service-plan.bicep' = {
 
 //FRONTEND
 module appServiceApp './fe-app-service.bicep' = {
-  name: 'as-appName-${userAlias}-${environmentType}'
+  name: 'as-app-${userAlias}-${environmentType}'
   params: {
     appServiceAppName: appServiceAppName
     // location: location
@@ -108,7 +108,7 @@ module appServiceApp './fe-app-service.bicep' = {
 
 //BACKEND
 module appServiceAPIApp './be-app-service.bicep'= {
-  name: 'as-APIAppName-${userAlias}-${environmentType}'
+  name: 'as-APIApp-${userAlias}-${environmentType}'
   params: {
     appServiceAPIAppName: appServiceAPIAppName
     location: location

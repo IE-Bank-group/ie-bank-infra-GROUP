@@ -7,7 +7,7 @@ var workbookData = '''{
     {
       "type": 1,
       "content": {
-        "json": "# IE Bank Workbook \r\n## SLO Dashboard\r\n### Static Web App Avaliability - 99.99% Uptime Target\r\n"
+        "json": "# Next Bank Workbook \r\n## SLO Dashboard\r\n### Static Web App Avaliability - 99.7% Uptime Target\r\n"
       },
       "name": "text - 0"
     },
@@ -42,12 +42,12 @@ var workbookData = '''{
               "thresholdsGrid": [
                 {
                   "operator": ">=",
-                  "thresholdValue": 99.99,
+                  "thresholdValue": 99.7,
                   "representation": "success"
                 },
                 {
                   "operator": ">=",
-                  "thresholdValue": 99.9,
+                  "thresholdValue": 99.7,
                   "representation": "warning"
                 },
                 {
@@ -67,7 +67,7 @@ var workbookData = '''{
     {
       "type": 1,
       "content": {
-        "json": "### Key Vault Avaliability - 99.99% Uptime Avaliability"
+        "json": "### Key Vault Avaliability - 99.7% Uptime Avaliability"
       },
       "name": "text - 4"
     },

@@ -3,6 +3,8 @@ param appServiceAppName string
 // param appServicePlanId string
 param sku string 
 param webLocation string 
+// param appInsightsConnectionString string 
+// param appInsightsInstrumentationKey string 
 
 //NEEDS APPINSIGHTS CONNECTIONS 
 
@@ -49,3 +51,5 @@ resource appServiceApp 'Microsoft.Web/staticSites@2024-04-01' = {
 
 output appServiceAppHostName string = appServiceApp.properties.defaultHostname
 //need two more outputs - endpoint & resource name
+output appServiceAppEndpoint string = appServiceApp.properties.contentDistributionEndpoint
+output appServiceAppResourceName string = appServiceApp.name

@@ -4,13 +4,14 @@ param location string = resourceGroup().location
 param postgresSQLAdminServerPrincipalName string
 param postgresSQLAdminServicePrincipalObjectId string  
 param logAnalyticsWorkspaceId string 
-
+param userAlias string
+param environmentType string
 
 
 
 
 module postgresSQLServer 'postgres-server.bicep' = {
-  name: postgresSQLServerName
+  name: 'postgres-server-${userAlias}-${environmentType}'
   params: {
     location: location
     postgresSQLServerName: postgresSQLServerName
@@ -22,7 +23,7 @@ module postgresSQLServer 'postgres-server.bicep' = {
 
 
 module postgresSQLDatabase 'postgres-db.bicep' = {
-  name: postgresSQLDatabaseName
+  name: 'postgres-db-${userAlias}-${environmentType}'
   params: {
     postgresSQLServerName: postgresSQLServer.outputs.postgresSQLServerName     //output of postgres-server.bicep
     postgresSQLDatabaseName: postgresSQLDatabaseName
@@ -36,4 +37,3 @@ module postgresSQLDatabase 'postgres-db.bicep' = {
 
 
 output postgresSQLServerName string = postgresSQLServer.outputs.postgresSQLServerName     //this is identical to output of postgres-server.bicep
-

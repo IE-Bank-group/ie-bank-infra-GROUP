@@ -2,6 +2,7 @@ param appInsightsName string
 param location string
 param logAnalyticsWorkspaceId string
 param keyVaultResourceId string 
+param environmentType string 
 // @allowed([
 //   'web'
 //   'other'
@@ -24,13 +25,13 @@ resource adminCredentialsKeyVault 'Microsoft.KeyVault/vaults@2021-10-01' existin
 }
 
 // create a secret to store the container registry admin username
-resource instrumentationKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
-  name: 'instrumentationKey' 
-  parent: adminCredentialsKeyVault
-  properties: {
-    value: appInsights.properties.InstrumentationKey
-  }
-}
+// resource instrumentationKeySecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
+//   name: 'instrumentationKey' 
+//   parent: adminCredentialsKeyVault
+//   properties: {
+//     value: appInsights.properties.InstrumentationKey
+//   }
+// }
 
 // create a secret to store the container registry admin password 0
 resource connectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' =  {
@@ -42,7 +43,20 @@ resource connectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' =
 }
 
 
+module workbook 'workbook.bicep' = {
+  name: 'workbook-${environmentType}'
+  params: {
+    location: location
+    appInsightsResourceId: appInsights.id 
+  }
+}
 
 
-output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
+
+//
+
+
+
+
+// output appInsightsInstrumentationKey string = appInsights.properties.InstrumentationKey
 output appInsightsConnectionString string = appInsights.properties.ConnectionString

@@ -102,6 +102,5 @@ resource postgresSQLDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-0
 
 
 
-
-output postgresSQLServerName string = postgresSQLServer.name
 output resourceOutput object = postgresSQLServer
+output postgresSQLServerName string = postgresSQLServer.name

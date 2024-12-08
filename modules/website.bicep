@@ -1,8 +1,9 @@
 param location string = resourceGroup().location
 param webLocation string
 @allowed([
-  'nonprod'
-  'prod' 
+  'dev'
+  'uat'
+  'prod'
 ])
 param environmentType string 
 param userAlias string 
@@ -65,6 +66,7 @@ module appInsights './application-insights.bicep' = {
     appInsightsName: appInsightsName
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     keyVaultResourceId: keyVaultResourceId
+    environmentType: environmentType
   }
 }
 
@@ -77,23 +79,26 @@ resource keyVaultReference 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
 
 
 module appServicePlan './app-service-plan.bicep' = {
-  name: appServicePlanName
+  name: 'aspName-${userAlias}-${environmentType}'
   params: {
     appServicePlanName: appServicePlanName
     location: location
     appServicePlanSkuName: appServicePlanSkuName
+    logAnalyticsWorkSpaceId: logAnalyticsWorkspaceId
   }
 }
 
 
 //FRONTEND
 module appServiceApp './fe-app-service.bicep' = {
-  name: appServiceAppName
+  name: 'as-appName-${userAlias}-${environmentType}'
   params: {
     appServiceAppName: appServiceAppName
     // location: location
     webLocation: webLocation
     // appServicePlanId: appServicePlan.outputs.planId
+    // appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
+    // appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey
     sku: sku
   }
 
@@ -103,14 +108,15 @@ module appServiceApp './fe-app-service.bicep' = {
 
 //BACKEND
 module appServiceAPIApp './be-app-service.bicep'= {
-  name: appServiceAPIAppName
+  name: 'as-APIAppName-${userAlias}-${environmentType}'
   params: {
     appServiceAPIAppName: appServiceAPIAppName
     location: location
+    environmentType: environmentType
     containerRegistryName: containerRegistryName
     appServicePlanId: appServicePlan.outputs.planId
     appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
-    appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey
+    // appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey
     dockerRegistryServerPassword: keyVaultReference.getSecret(keyVaultSecretNameAdminPassword0)
     dockerRegistryServerUsername: keyVaultReference.getSecret(keyVaultSecretNameAdminUsername)
     dockerRegistryImageName: dockerRegistryImageName
@@ -162,7 +168,7 @@ module appServiceAPIApp './be-app-service.bicep'= {
 
 
 module appDatabase './database.bicep' = {
-  name: 'appDatabase-${userAlias}-${environmentType}'
+  name: 'app-db-${userAlias}-${environmentType}'
   params: {
     location: location
     postgresSQLDatabaseName: postgresSQLDatabaseName
@@ -170,10 +176,13 @@ module appDatabase './database.bicep' = {
     postgresSQLAdminServerPrincipalName: appServiceAPIAppName
     postgresSQLAdminServicePrincipalObjectId: appServiceAPIApp.outputs.systemAssignedIdentityPrincipalId
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
+    userAlias:userAlias
+    environmentType: environmentType
   }
 
 }  
 
 // need static web app url, endpoints, resource name 
 output appServiceAppHostName string = appServiceApp.outputs.appServiceAppHostName
-// output appServiceAppEndpoint string = appServiceApp.outputs.appServiceAppHostName
+output appServiceAppEndpoint string = appServiceApp.outputs.appServiceAppEndpoint
+output appServiceAppResourceName string = appServiceApp.outputs.appServiceAppResourceName

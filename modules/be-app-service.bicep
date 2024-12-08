@@ -4,18 +4,23 @@ param containerRegistryName string
 param appServicePlanId string
 param appSettings array = []
 param appInsightsConnectionString string
-param appInsightsInstrumentationKey string 
+// param appInsightsInstrumentationKey string 
 @secure()
 param dockerRegistryServerUsername string
 @secure()
 param dockerRegistryServerPassword string
 param dockerRegistryImageTag string
 param dockerRegistryImageName string 
+@allowed([
+  'dev'
+  'uat'
+  'prod'
+])
+param environmentType string 
 
-//NEEDS DOCKER CREDENTIALS 
 
 var appInsightsSettings = [
-  {name: 'APPINSIGHTS-INSTRUMENTATIONKEY', value: appInsightsInstrumentationKey}
+  // {name: 'APPINSIGHTS-INSTRUMENTATIONKEY', value: appInsightsInstrumentationKey}
   {name: 'APPINSIGHTS-CONNECTIONSTRING', value: appInsightsConnectionString}
 ]
 
@@ -40,7 +45,7 @@ resource appServiceAPIApp 'Microsoft.Web/sites@2022-03-01' = {
     siteConfig: {
       ftpsState: 'FtpsOnly'
       linuxFxVersion: 'DOCKER|${containerRegistryName}.azurecr.io/${dockerRegistryImageName}:${dockerRegistryImageTag}'
-      alwaysOn: false
+      alwaysOn: environmentType == 'prod' ? true: false
       appSettings: mergeAppSettings
       appCommandLine: ''
     }

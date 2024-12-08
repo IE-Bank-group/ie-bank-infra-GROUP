@@ -1,9 +1,10 @@
 @description('The environment type')
 @allowed([
-  'nonprod'
+  'dev'
+  'uat'
   'prod'
 ])
-param environmentType string = 'nonprod'
+param environmentType string 
 param location string = resourceGroup().location
 param webLocation string 
 param userAlias string = 'apayne'
@@ -73,7 +74,7 @@ var keyVaultResourceId = keyVault.outputs.keyVaultResourceId
 
 
 module logAnalytics 'modules/log-analytics.bicep' = {
-  name: 'logAnalytics-${userAlias}-${environmentType}'
+  name: 'law-${userAlias}-${environmentType}'
   params: {
     logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
     location: location
@@ -94,7 +95,7 @@ module keyVault 'modules/key-vault.bicep' = {
 
 
 module appService 'modules/website.bicep' = {
-  name: 'appService-${userAlias}-${environmentType}'
+  name: 'as-${userAlias}-${environmentType}'
   params: {
     location: location
     webLocation: webLocation
@@ -137,9 +138,8 @@ module appService 'modules/website.bicep' = {
 
 
 output appServiceAppHostName string = appService.outputs.appServiceAppHostName
-
-// // Outputs
-// output appServiceAppHostName string = appServiceWebsiteBE.outputs.appServiceAppHostName
+output appServiceAppEndpoint string = appService.outputs.appServiceAppEndpoint
+output appServiceAppResourceName string = appService.outputs.appServiceAppResourceName
 // output appInsightsInstrumentationKey string = appInsights.outputs.appInsightsInstrumentationKey
 // output appInsightsConnectionString string = appInsights.outputs.appInsightsConnectionString
 output logAnalyticsWorkspaceId string = logAnalytics.outputs.logAnalyticsWorkspaceId

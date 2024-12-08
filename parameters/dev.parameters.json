@@ -8,7 +8,7 @@
             "value": "apayne"
         },
         "environmentType": {
-            "value": "nonprod"
+            "value": "dev"
         },
         "postgresSQLServerName": {
             "value": "apayne-dbsrv-dev"

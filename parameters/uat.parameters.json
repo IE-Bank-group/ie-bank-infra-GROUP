@@ -6,7 +6,7 @@
         "value": "apayne"
       }, 
       "environmentType": {
-        "value": "nonprod"
+        "value": "uat"
       },
       "postgresSQLServerName": {
         "value": "apayne-dbsrv-uat"

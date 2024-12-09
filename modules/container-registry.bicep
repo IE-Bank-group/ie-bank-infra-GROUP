@@ -54,8 +54,8 @@ resource secretAdminUserPassword1 'Microsoft.KeyVault/vaults/secrets@2023-02-01'
   }
 }
 
-resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
-  name: 'StaticWebAppDeploymentToken'
+resource StaticWebAppDeploymentToken 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
+  name: 'keyVault'
   parent: adminCredentialsKeyVault
   properties: {
     value: ''

@@ -26,6 +26,7 @@ param containerRegistryName string
 param keyVaultSecretNameAdminUsername string
 param keyVaultSecretNameAdminPassword0 string
 param keyVaultSecretNameAdminPassword1 string
+param keyVaultSecret string
 
 param postgresSQLDatabaseName string
 param postgresSQLServerName string 
@@ -55,6 +56,7 @@ module containerRegistry './container-registry.bicep' = {
     keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
     keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
     keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
+    deploymentTokenSecretId: keyVaultSecret
   }
 }
 

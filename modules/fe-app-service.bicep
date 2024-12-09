@@ -3,6 +3,7 @@ param appServiceAppName string
 // param appServicePlanId string
 param sku string 
 param webLocation string 
+param keyVaultSecret string
 // param appInsightsConnectionString string 
 // param appInsightsInstrumentationKey string 
 
@@ -38,10 +39,12 @@ resource appServiceApp 'Microsoft.Web/staticSites@2024-04-01' = {
   properties: {
     allowConfigFileUpdates: false
   }
+  keyVaultSecret: keyVaultSecret
   sku: {
     name: sku
     tier: 'Standard'
   }
+
 }
 
 

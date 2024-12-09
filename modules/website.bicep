@@ -101,6 +101,8 @@ module appServiceApp './fe-app-service.bicep' = {
     // appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
     // appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey
     sku: sku
+    keyVaultResourceId: keyVault.outputs.resourceId
+    keyVaultSecretName: 'StaticWebAppDeploymentToken'
   }
 
 }

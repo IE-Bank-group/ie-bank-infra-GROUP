@@ -28,6 +28,7 @@ param containerRegistryName string ='apayne-acr'
 param keyVaultSecretNameAdminUsername string
 param keyVaultSecretNameAdminPassword0 string
 param keyVaultSecretNameAdminPassword1 string
+@secure()
 param keyVaultSecret string
 
 // param appSettings array 

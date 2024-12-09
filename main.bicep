@@ -29,7 +29,7 @@ param keyVaultSecretNameAdminUsername string
 param keyVaultSecretNameAdminPassword0 string
 param keyVaultSecretNameAdminPassword1 string
 @secure()
-param keyVaultSecret string
+param deploymentToken string
 
 // param appSettings array 
 param dockerRegistryImageName string
@@ -89,7 +89,6 @@ module keyVault 'modules/key-vault.bicep' = {
   name: 'kv-${userAlias}-${environmentType}'
   params: {
     location: location
-    keyVaultName: keyVaultName
     roleAssignments: keyVaultRoleAssignments
     logAnalyticsWorkspaceId: logAnalyticsWorkspaceId
     }
@@ -128,7 +127,7 @@ module appService 'modules/website.bicep' = {
     dockerRegistryImageName: dockerRegistryImageName
     dockerRegistryImageTag: dockerRegistryImageTag
     slackUrl: slackUrl
-    keyVaultSecret: keyVaultSecret
+    deploymentToken : deploymentToken 
     // postgresSQLAdminServerPrincipalName: postgresSQLAdminServerPrincipalName
     // postgresSQLAdminServicePrincipalObjectId: postgresSQLAdminServicePrincipalObjectId
   }

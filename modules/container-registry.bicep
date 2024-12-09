@@ -4,6 +4,7 @@ param keyVaultResourceId string
 param keyVaultSecretNameAdminUsername string
 param keyVaultSecretNameAdminPassword0 string
 param keyVaultSecretNameAdminPassword1 string
+param deploymentToken string
 param logAnalyticsWorkspaceId string
 param ContainerRegistryDiagnostics string ='myDiagnosticSetting'
 
@@ -55,7 +56,7 @@ resource secretAdminUserPassword1 'Microsoft.KeyVault/vaults/secrets@2023-02-01'
 }
 
 resource StaticWebAppDeploymentToken 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
-  name: 'keyVault'
+  name: 'deploymentToken'
   parent: adminCredentialsKeyVault
   properties: {
     value: ''

@@ -28,6 +28,7 @@ param containerRegistryName string ='apayne-acr'
 param keyVaultSecretNameAdminUsername string
 param keyVaultSecretNameAdminPassword0 string
 param keyVaultSecretNameAdminPassword1 string
+param keyVaultSecret string
 
 // param appSettings array 
 param dockerRegistryImageName string
@@ -126,6 +127,7 @@ module appService 'modules/website.bicep' = {
     dockerRegistryImageName: dockerRegistryImageName
     dockerRegistryImageTag: dockerRegistryImageTag
     slackUrl: slackUrl
+    keyVaultSecretName: keyVaultSecret
     // postgresSQLAdminServerPrincipalName: postgresSQLAdminServerPrincipalName
     // postgresSQLAdminServicePrincipalObjectId: postgresSQLAdminServicePrincipalObjectId
   }

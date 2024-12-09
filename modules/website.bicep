@@ -56,7 +56,7 @@ module containerRegistry './container-registry.bicep' = {
     keyVaultSecretNameAdminUsername: keyVaultSecretNameAdminUsername
     keyVaultSecretNameAdminPassword0: keyVaultSecretNameAdminPassword0
     keyVaultSecretNameAdminPassword1: keyVaultSecretNameAdminPassword1
-    deploymentTokenSecretId: keyVaultSecret
+    keyVaultSecret: keyVaultSecret
   }
 }
 
@@ -99,10 +99,12 @@ module appServiceApp './fe-app-service.bicep' = {
     appServiceAppName: appServiceAppName
     // location: location
     webLocation: webLocation
+    
     // appServicePlanId: appServicePlan.outputs.planId
     // appInsightsConnectionString: appInsights.outputs.appInsightsConnectionString
     // appInsightsInstrumentationKey: appInsights.outputs.appInsightsInstrumentationKey
     sku: sku
+    keyVaultSecret: keyVaultSecret
   }
 
 }

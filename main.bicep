@@ -128,7 +128,7 @@ module appService 'modules/website.bicep' = {
     dockerRegistryImageName: dockerRegistryImageName
     dockerRegistryImageTag: dockerRegistryImageTag
     slackUrl: slackUrl
-    keyVaultSecretName: keyVaultSecret
+    keyVaultSecret: keyVaultSecret
     // postgresSQLAdminServerPrincipalName: postgresSQLAdminServerPrincipalName
     // postgresSQLAdminServicePrincipalObjectId: postgresSQLAdminServicePrincipalObjectId
   }

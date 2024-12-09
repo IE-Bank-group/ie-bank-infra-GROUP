@@ -6,6 +6,11 @@ param webLocation string
 // param appInsightsConnectionString string 
 // param appInsightsInstrumentationKey string 
 
+
+param keyVaultResourceId string
+
+param keyVaultSecretName string
+
 //NEEDS APPINSIGHTS CONNECTIONS 
 
 
@@ -44,7 +49,17 @@ resource appServiceApp 'Microsoft.Web/staticSites@2024-04-01' = {
   }
 }
 
+resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' existing = {
+  name: last(split(keyVaultResourceId, '/'))
+}
 
+resource deploymentTokenSecret 'Microsoft.KeyVault/vaults/secrets@2021-06-01-preview' = {
+  name: keyVaultSecretName
+  parent: keyVault
+  properties: {
+    value: staticSite.listSecrets().properties.apiKey
+  }
+}
 
 
 
